@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.medicine.mapper.BatchMapper">
+    
+    <resultMap type="Batch" id="BatchResult">
+        <result property="id"    column="id"    />
+        <result property="batchNumber"    column="batch_number"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBatchVo">
+        select id, batch_number, create_time, update_time from batch
+    </sql>
+
+    <select id="selectBatchList" parameterType="Batch" resultMap="BatchResult">
+        <include refid="selectBatchVo"/>
+        <where>  
+            <if test="batchNumber != null  and batchNumber != ''"> and batch_number = #{batchNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectBatchById" parameterType="Long" resultMap="BatchResult">
+        <include refid="selectBatchVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBatch" parameterType="Batch" useGeneratedKeys="true" keyProperty="id">
+        insert into batch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="batchNumber != null and batchNumber != ''">batch_number,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="batchNumber != null and batchNumber != ''">#{batchNumber},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBatch" parameterType="Batch">
+        update batch
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="batchNumber != null and batchNumber != ''">batch_number = #{batchNumber},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBatchById" parameterType="Long">
+        delete from batch where id = #{id}
+    </delete>
+
+    <delete id="deleteBatchByIds" parameterType="String">
+        delete from batch where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
