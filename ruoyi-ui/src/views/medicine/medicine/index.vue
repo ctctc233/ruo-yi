@@ -65,6 +65,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="0：正常；1：停用" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择0：正常；1：停用" clearable>
+          <el-option
+            v-for="dict in dict.type.medicine_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -136,7 +146,11 @@
       </el-table-column>
       <el-table-column label="厂商" align="center" prop="manufacturer" />
       <el-table-column label="单位" align="center" prop="unit" />
-      <el-table-column label="0：正常；1：停用" align="center" prop="status" />
+      <el-table-column label="0：正常；1：停用" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.medicine_status" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -202,6 +216,15 @@
         <el-form-item label="单位" prop="unit">
           <el-input v-model="form.unit" placeholder="请输入单位" />
         </el-form-item>
+        <el-form-item label="0：正常；1：停用" prop="status">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in dict.type.medicine_status"
+              :key="dict.value"
+              :label="parseInt(dict.value)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -216,6 +239,7 @@ import { listMedicine, getMedicine, delMedicine, addMedicine, updateMedicine } f
 
 export default {
   name: "Medicine",
+  dicts: ['medicine_status'],
   data() {
     return {
       // 遮罩层

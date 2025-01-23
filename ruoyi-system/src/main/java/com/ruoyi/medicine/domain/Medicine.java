@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 药品对象 medicine
  * 
  * @author ruoyi
- * @date 2025-01-23
+ * @date 2025-01-24
  */
 public class Medicine extends BaseEntity
 {

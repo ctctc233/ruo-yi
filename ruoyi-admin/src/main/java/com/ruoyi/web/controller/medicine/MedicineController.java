@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 药品Controller
  * 
  * @author ruoyi
- * @date 2025-01-23
+ * @date 2025-01-24
  */
 @RestController
 @RequestMapping("/medicine/medicine")

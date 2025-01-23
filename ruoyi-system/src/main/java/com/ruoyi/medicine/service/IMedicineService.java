@@ -7,7 +7,7 @@ import com.ruoyi.medicine.domain.Medicine;
  * 药品Service接口
  * 
  * @author ruoyi
- * @date 2025-01-23
+ * @date 2025-01-24
  */
 public interface IMedicineService 
 {

@@ -12,7 +12,7 @@ import com.ruoyi.medicine.service.IMedicineService;
  * 药品Service业务层处理
  * 
  * @author ruoyi
- * @date 2025-01-23
+ * @date 2025-01-24
  */
 @Service
 public class MedicineServiceImpl implements IMedicineService 

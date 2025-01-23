@@ -28,11 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="number != null "> and number = #{number}</if>
-            <if test="brand != null  and brand != ''"> and brand = #{brand}</if>
+            <if test="brand != null  and brand != ''"> and brand like concat('%', #{brand}, '%')</if>
             <if test="specificationAttributeId != null "> and specification_attribute_id = #{specificationAttributeId}</if>
-            <if test="productionDate != null "> and production_date = #{productionDate}</if>
-            <if test="expiryDate != null "> and expiry_date = #{expiryDate}</if>
-            <if test="manufacturer != null  and manufacturer != ''"> and manufacturer = #{manufacturer}</if>
+            <if test="productionDate != null "> and production_date like concat('%', #{productionDate}, '%')</if>
+            <if test="expiryDate != null "> and expiry_date like concat('%', #{expiryDate}, '%')</if>
+            <if test="manufacturer != null  and manufacturer != ''"> and manufacturer like concat('%', #{manufacturer}, '%')</if>
             <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
             <if test="status != null "> and status = #{status}</if>
         </where>
