@@ -35,7 +35,8 @@ export default {
   },
   data() {
     return {
-      title: process.env.VUE_APP_TITLE,
+      // title: process.env.VUE_APP_TITLE,
+      title: '药剂管理系统', // Replace with your app name
       logo: logoImg
     }
   }
