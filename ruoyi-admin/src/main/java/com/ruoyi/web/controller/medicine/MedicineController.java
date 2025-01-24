@@ -100,7 +100,7 @@ public class MedicineController extends BaseController {
 	 * 查询过期药品
 	 */
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:query')")
-	@GetMapping(value = "/queryExpiredMedicine")
+	@GetMapping(value = "/queryExpired")
 	public AjaxResult queryExpiredMedicine() {
 		return success(medicineService.selectExpiredMedicine());
 	}
