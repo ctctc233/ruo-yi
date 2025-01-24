@@ -17,11 +17,11 @@ public class Medicine extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 药品ID */
+    /** 药品id */
     private Long id;
 
-    /** 药品名称 */
-    @Excel(name = "药品名称")
+    /** 名字 */
+    @Excel(name = "名字")
     private String name;
 
     /** 编号 */
@@ -36,14 +36,14 @@ public class Medicine extends BaseEntity
     @Excel(name = "关联规格表")
     private Long specificationAttributeId;
 
-    /** 生产日期 */
+    /** 生产时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "生产日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "生产时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date productionDate;
 
-    /** 过期日期 */
+    /** 过期时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "过期日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "过期时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date expiryDate;
 
     /** 厂商 */
@@ -53,6 +53,10 @@ public class Medicine extends BaseEntity
     /** 单位 */
     @Excel(name = "单位")
     private String unit;
+
+    /** 数量 */
+    @Excel(name = "数量")
+    private Long count;
 
     /** 0：正常；1：停用 */
     @Excel(name = "0：正常；1：停用")
@@ -139,6 +143,15 @@ public class Medicine extends BaseEntity
     {
         return unit;
     }
+    public void setCount(Long count) 
+    {
+        this.count = count;
+    }
+
+    public Long getCount() 
+    {
+        return count;
+    }
     public void setStatus(Long status) 
     {
         this.status = status;
@@ -161,6 +174,7 @@ public class Medicine extends BaseEntity
             .append("expiryDate", getExpiryDate())
             .append("manufacturer", getManufacturer())
             .append("unit", getUnit())
+            .append("count", getCount())
             .append("status", getStatus())
             .append("createTime", getCreateTime())
             .append("updateTime", getUpdateTime())

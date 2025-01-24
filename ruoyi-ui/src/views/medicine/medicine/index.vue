@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="药品名称" prop="name">
+      <el-form-item label="名字" prop="name">
         <el-input
           v-model="queryParams.name"
-          placeholder="请输入药品名称"
+          placeholder="请输入名字"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -33,20 +33,20 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="生产日期" prop="productionDate">
+      <el-form-item label="生产时间" prop="productionDate">
         <el-date-picker clearable
           v-model="queryParams.productionDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="请选择生产日期">
+          placeholder="请选择生产时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="过期日期" prop="expiryDate">
+      <el-form-item label="过期时间" prop="expiryDate">
         <el-date-picker clearable
           v-model="queryParams.expiryDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="请选择过期日期">
+          placeholder="请选择过期时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="厂商" prop="manufacturer">
@@ -61,6 +61,14 @@
         <el-input
           v-model="queryParams.unit"
           placeholder="请输入单位"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="数量" prop="count">
+        <el-input
+          v-model="queryParams.count"
+          placeholder="请输入数量"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -129,23 +137,24 @@
 
     <el-table v-loading="loading" :data="medicineList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="药品ID" align="center" prop="id" />
-      <el-table-column label="药品名称" align="center" prop="name" />
+      <el-table-column label="药品id" align="center" prop="id" />
+      <el-table-column label="名字" align="center" prop="name" />
       <el-table-column label="编号" align="center" prop="number" />
       <el-table-column label="品牌" align="center" prop="brand" />
       <el-table-column label="关联规格表" align="center" prop="specificationAttributeId" />
-      <el-table-column label="生产日期" align="center" prop="productionDate" width="180">
+      <el-table-column label="生产时间" align="center" prop="productionDate" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.productionDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="过期日期" align="center" prop="expiryDate" width="180">
+      <el-table-column label="过期时间" align="center" prop="expiryDate" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.expiryDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="厂商" align="center" prop="manufacturer" />
       <el-table-column label="单位" align="center" prop="unit" />
+      <el-table-column label="数量" align="center" prop="count" />
       <el-table-column label="0：正常；1：停用" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.medicine_status" :value="scope.row.status"/>
@@ -182,8 +191,8 @@
     <!-- 添加或修改药品对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="药品名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入药品名称" />
+        <el-form-item label="名字" prop="name">
+          <el-input v-model="form.name" placeholder="请输入名字" />
         </el-form-item>
         <el-form-item label="编号" prop="number">
           <el-input v-model="form.number" placeholder="请输入编号" />
@@ -194,20 +203,20 @@
         <el-form-item label="关联规格表" prop="specificationAttributeId">
           <el-input v-model="form.specificationAttributeId" placeholder="请输入关联规格表" />
         </el-form-item>
-        <el-form-item label="生产日期" prop="productionDate">
+        <el-form-item label="生产时间" prop="productionDate">
           <el-date-picker clearable
             v-model="form.productionDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="请选择生产日期">
+            placeholder="请选择生产时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="过期日期" prop="expiryDate">
+        <el-form-item label="过期时间" prop="expiryDate">
           <el-date-picker clearable
             v-model="form.expiryDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="请选择过期日期">
+            placeholder="请选择过期时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="厂商" prop="manufacturer">
@@ -215,6 +224,9 @@
         </el-form-item>
         <el-form-item label="单位" prop="unit">
           <el-input v-model="form.unit" placeholder="请输入单位" />
+        </el-form-item>
+        <el-form-item label="数量" prop="count">
+          <el-input v-model="form.count" placeholder="请输入数量" />
         </el-form-item>
         <el-form-item label="0：正常；1：停用" prop="status">
           <el-radio-group v-model="form.status">
@@ -272,6 +284,7 @@ export default {
         expiryDate: null,
         manufacturer: null,
         unit: null,
+        count: null,
         status: null,
       },
       // 表单参数
@@ -279,10 +292,13 @@ export default {
       // 表单校验
       rules: {
         name: [
-          { required: true, message: "药品名称不能为空", trigger: "blur" }
+          { required: true, message: "名字不能为空", trigger: "blur" }
         ],
         number: [
           { required: true, message: "编号不能为空", trigger: "blur" }
+        ],
+        count: [
+          { required: true, message: "数量不能为空", trigger: "blur" }
         ],
         status: [
           { required: true, message: "0：正常；1：停用不能为空", trigger: "change" }
@@ -291,7 +307,7 @@ export default {
           { required: true, message: "创建时间不能为空", trigger: "blur" }
         ],
         updateTime: [
-          { required: true, message: "更新时间不能为空", trigger: "blur" }
+          { required: true, message: "修改时间不能为空", trigger: "blur" }
         ]
       }
     };
@@ -326,6 +342,7 @@ export default {
         expiryDate: null,
         manufacturer: null,
         unit: null,
+        count: null,
         status: null,
         createTime: null,
         updateTime: null
