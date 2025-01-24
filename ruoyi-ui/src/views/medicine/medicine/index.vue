@@ -265,18 +265,11 @@
         <el-form-item label="药品品牌" prop="brand">
           <el-input v-model="form.brand" placeholder="请输入品牌" />
         </el-form-item>
-        <el-form-item label="规格" prop="specificationAttributeId">
-          <el-select
-            v-model="form.specificationAttributeId"
-            placeholder="请选择规格"
-          >
-            <el-option
-              v-for="item in specifications"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+        <el-form-item label="规格健" prop="specificationAttributekey">
+          <el-input v-model="form.specificationAttributekey" placeholder="请输入规格健" />
+        </el-form-item>
+        <el-form-item label="规格值" prop="specificationAttributename">
+          <el-input v-model="form.specificationAttributename" placeholder="请输入规格值" />
         </el-form-item>
         <el-form-item label="生产时间" prop="productionDate">
           <el-date-picker
@@ -365,7 +358,8 @@ export default {
         name: null,
         number: null,
         brand: null,
-        specificationAttributeId: null,
+        specificationAttributekey: null,
+        specificationAttributename: null,
         productionDate: null,
         expiryDate: null,
         manufacturer: null,
@@ -376,12 +370,12 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      specifications: [  
-      { id: 1, name: "规格A" },  
-      { id: 2, name: "规格B" },  
-      { id: 3, name: "规格C" },  
-      // 其他的规格...  
-    ],  
+      specifications: [
+        { id: 1, key: "测试", name: "规格A" },
+        { id: 2, key: "测试", name: "规格B" },
+        { id: 3, key: "测试", name: "规格C" },
+        // 其他的规格...
+      ],
       rules: {
         name: [{ required: true, message: "名字不能为空", trigger: "blur" }],
         number: [{ required: true, message: "编号不能为空", trigger: "blur" }],
@@ -406,12 +400,14 @@ export default {
     this.getList();
   },
   methods: {
-    getSpecificationName(specificationAttributeId) {  
-      const specification = this.specifications.find(  
-        (spec) => spec.id === specificationAttributeId  
-      );  
-      return specification ? specification.name : '未知规格'; // 如果没有找到则返回“未知规格”  
-    },  
+    getSpecificationName(specificationAttributeId) {
+      const specification = this.specifications.find(
+        (spec) => spec.id === specificationAttributeId
+      );
+      return specification
+        ? `${specification.key}:${specification.name}`
+        : "未知规格";
+    },
     /** 查询药品列表 */
     getList() {
       this.loading = true;
