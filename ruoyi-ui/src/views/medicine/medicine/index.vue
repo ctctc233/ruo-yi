@@ -1,80 +1,95 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="名字" prop="name">
+    <el-form
+      :model="queryParams"
+      ref="queryForm"
+      size="small"
+      :inline="true"
+      v-show="showSearch"
+      label-width="68px"
+    >
+      <el-form-item label="药品名称" prop="name">
         <el-input
           v-model="queryParams.name"
-          placeholder="请输入名字"
+          placeholder="请输入名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="编号" prop="number">
+      <el-form-item label="药品编号" prop="number">
         <el-input
           v-model="queryParams.number"
-          placeholder="请输入编号"
+          placeholder="请输入药品编号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="品牌" prop="brand">
+      <el-form-item label="药品品牌" prop="brand">
         <el-input
           v-model="queryParams.brand"
-          placeholder="请输入品牌"
+          placeholder="请输入药品品牌"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="关联规格表" prop="specificationAttributeId">
+      <!-- <el-form-item label="关联规格表" prop="specificationAttributeId">
         <el-input
           v-model="queryParams.specificationAttributeId"
           placeholder="请输入关联规格表"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="生产时间" prop="productionDate">
-        <el-date-picker clearable
+      </el-form-item> -->
+      <!-- <el-form-item label="生产时间" prop="productionDate">
+        <el-date-picker
+          clearable
           v-model="queryParams.productionDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="请选择生产时间">
+          placeholder="请选择生产时间"
+        >
         </el-date-picker>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="过期时间" prop="expiryDate">
-        <el-date-picker clearable
+        <el-date-picker
+          clearable
           v-model="queryParams.expiryDate"
           type="date"
           value-format="yyyy-MM-dd"
-          placeholder="请选择过期时间">
+          placeholder="请选择过期时间"
+        >
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="厂商" prop="manufacturer">
+      <!-- <el-form-item label="厂商" prop="manufacturer">
         <el-input
           v-model="queryParams.manufacturer"
           placeholder="请输入厂商"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="单位" prop="unit">
+      </el-form-item> -->
+      <!-- <el-form-item label="单位" prop="unit">
         <el-input
           v-model="queryParams.unit"
           placeholder="请输入单位"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="数量" prop="count">
+      </el-form-item> -->
+      <!-- <el-form-item label="数量" prop="count">
         <el-input
           v-model="queryParams.count"
           placeholder="请输入数量"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="0：正常；1：停用" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择0：正常；1：停用" clearable>
+      </el-form-item> -->
+      <el-form-item label="状态" prop="status">
+        <el-select
+          v-model="queryParams.status"
+          placeholder="请选择状态"
+          clearable
+        >
           <el-option
             v-for="dict in dict.type.medicine_status"
             :key="dict.value"
@@ -84,8 +99,16 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="mini"
+          @click="handleQuery"
+          >搜索</el-button
+        >
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+          >重置</el-button
+        >
       </el-form-item>
     </el-form>
 
@@ -98,7 +121,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['medicine:medicine:add']"
-        >新增</el-button>
+          >新增</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -109,7 +133,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['medicine:medicine:edit']"
-        >修改</el-button>
+          >修改</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -120,7 +145,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['medicine:medicine:remove']"
-        >删除</el-button>
+          >删除</el-button
+        >
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -130,37 +156,74 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['medicine:medicine:export']"
-        >导出</el-button>
+          >导出</el-button
+        >
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        :showSearch.sync="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="medicineList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="medicineList"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="药品id" align="center" prop="id" />
-      <el-table-column label="名字" align="center" prop="name" />
-      <el-table-column label="编号" align="center" prop="number" />
-      <el-table-column label="品牌" align="center" prop="brand" />
-      <el-table-column label="关联规格表" align="center" prop="specificationAttributeId" />
-      <el-table-column label="生产时间" align="center" prop="productionDate" width="180">
+      <el-table-column label="药品编号" align="center" prop="number" />
+      <!-- <el-table-column label="药品id" align="center" prop="id" /> -->
+      <el-table-column label="药品名称" align="center" prop="name" />
+
+      <el-table-column label="药品品牌" align="center" prop="brand" />
+      <!-- 修改规格列 -->
+      <el-table-column label="规格" align="center">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.productionDate, '{y}-{m}-{d}') }}</span>
+          {{ getSpecificationName(scope.row.specificationAttributeId) }}
         </template>
       </el-table-column>
-      <el-table-column label="过期时间" align="center" prop="expiryDate" width="180">
+      <!-- <el-table-column
+        label="生产时间"
+        align="center"
+        prop="productionDate"
+        width="180"
+      >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.expiryDate, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.productionDate, "{y}-{m}-{d}") }}</span>
+        </template>
+      </el-table-column> -->
+
+      <el-table-column
+        label="过期时间"
+        align="center"
+        prop="expiryDate"
+        width="180"
+      >
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.expiryDate, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
+
       <el-table-column label="厂商" align="center" prop="manufacturer" />
       <el-table-column label="单位" align="center" prop="unit" />
       <el-table-column label="数量" align="center" prop="count" />
-      <el-table-column label="0：正常；1：停用" align="center" prop="status">
+
+      <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.medicine_status" :value="scope.row.status"/>
+          <dict-tag
+            :options="dict.type.medicine_status"
+            :value="scope.row.status"
+          />
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <!--存放位置-->
+      <el-table-column label="存放位置" align="center" prop="ent" />
+
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -168,20 +231,22 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['medicine:medicine:edit']"
-          >修改</el-button>
+            >修改</el-button
+          >
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['medicine:medicine:remove']"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
+      v-show="total > 0"
       :total="total"
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
@@ -191,32 +256,46 @@
     <!-- 添加或修改药品对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="名字" prop="name">
+        <el-form-item label="药品名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入名字" />
         </el-form-item>
-        <el-form-item label="编号" prop="number">
+        <el-form-item label="药品编号" prop="number">
           <el-input v-model="form.number" placeholder="请输入编号" />
         </el-form-item>
-        <el-form-item label="品牌" prop="brand">
+        <el-form-item label="药品品牌" prop="brand">
           <el-input v-model="form.brand" placeholder="请输入品牌" />
         </el-form-item>
-        <el-form-item label="关联规格表" prop="specificationAttributeId">
-          <el-input v-model="form.specificationAttributeId" placeholder="请输入关联规格表" />
+        <el-form-item label="规格" prop="specificationAttributeId">
+          <el-select
+            v-model="form.specificationAttributeId"
+            placeholder="请选择规格"
+          >
+            <el-option
+              v-for="item in specifications"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="生产时间" prop="productionDate">
-          <el-date-picker clearable
+          <el-date-picker
+            clearable
             v-model="form.productionDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="请选择生产时间">
+            placeholder="请选择生产时间"
+          >
           </el-date-picker>
         </el-form-item>
         <el-form-item label="过期时间" prop="expiryDate">
-          <el-date-picker clearable
+          <el-date-picker
+            clearable
             v-model="form.expiryDate"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="请选择过期时间">
+            placeholder="请选择过期时间"
+          >
           </el-date-picker>
         </el-form-item>
         <el-form-item label="厂商" prop="manufacturer">
@@ -228,13 +307,14 @@
         <el-form-item label="数量" prop="count">
           <el-input v-model="form.count" placeholder="请输入数量" />
         </el-form-item>
-        <el-form-item label="0：正常；1：停用" prop="status">
+        <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.medicine_status"
               :key="dict.value"
               :label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
+              >{{ dict.label }}</el-radio
+            >
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -247,11 +327,17 @@
 </template>
 
 <script>
-import { listMedicine, getMedicine, delMedicine, addMedicine, updateMedicine } from "@/api/medicine/medicine";
+import {
+  listMedicine,
+  getMedicine,
+  delMedicine,
+  addMedicine,
+  updateMedicine,
+} from "@/api/medicine/medicine";
 
 export default {
   name: "Medicine",
-  dicts: ['medicine_status'],
+  dicts: ["medicine_status"],
   data() {
     return {
       // 遮罩层
@@ -290,36 +376,46 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
+      specifications: [  
+      { id: 1, name: "规格A" },  
+      { id: 2, name: "规格B" },  
+      { id: 3, name: "规格C" },  
+      // 其他的规格...  
+    ],  
       rules: {
-        name: [
-          { required: true, message: "名字不能为空", trigger: "blur" }
-        ],
-        number: [
-          { required: true, message: "编号不能为空", trigger: "blur" }
-        ],
-        count: [
-          { required: true, message: "数量不能为空", trigger: "blur" }
-        ],
+        name: [{ required: true, message: "名字不能为空", trigger: "blur" }],
+        number: [{ required: true, message: "编号不能为空", trigger: "blur" }],
+        count: [{ required: true, message: "数量不能为空", trigger: "blur" }],
         status: [
-          { required: true, message: "0：正常；1：停用不能为空", trigger: "change" }
+          {
+            required: true,
+            message: "0：正常；1：停用不能为空",
+            trigger: "change",
+          },
         ],
         createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
+          { required: true, message: "创建时间不能为空", trigger: "blur" },
         ],
         updateTime: [
-          { required: true, message: "修改时间不能为空", trigger: "blur" }
-        ]
-      }
+          { required: true, message: "修改时间不能为空", trigger: "blur" },
+        ],
+      },
     };
   },
   created() {
     this.getList();
   },
   methods: {
+    getSpecificationName(specificationAttributeId) {  
+      const specification = this.specifications.find(  
+        (spec) => spec.id === specificationAttributeId  
+      );  
+      return specification ? specification.name : '未知规格'; // 如果没有找到则返回“未知规格”  
+    },  
     /** 查询药品列表 */
     getList() {
       this.loading = true;
-      listMedicine(this.queryParams).then(response => {
+      listMedicine(this.queryParams).then((response) => {
         this.medicineList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -345,7 +441,7 @@ export default {
         count: null,
         status: null,
         createTime: null,
-        updateTime: null
+        updateTime: null,
       };
       this.resetForm("form");
     },
@@ -361,9 +457,9 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
-      this.multiple = !selection.length
+      this.ids = selection.map((item) => item.id);
+      this.single = selection.length !== 1;
+      this.multiple = !selection.length;
     },
     /** 新增按钮操作 */
     handleAdd() {
@@ -374,8 +470,8 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const id = row.id || this.ids
-      getMedicine(id).then(response => {
+      const id = row.id || this.ids;
+      getMedicine(id).then((response) => {
         this.form = response.data;
         this.open = true;
         this.title = "修改药品";
@@ -383,16 +479,16 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.id != null) {
-            updateMedicine(this.form).then(response => {
+            updateMedicine(this.form).then((response) => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addMedicine(this.form).then(response => {
+            addMedicine(this.form).then((response) => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -404,19 +500,27 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除药品编号为"' + ids + '"的数据项？').then(function() {
-        return delMedicine(ids);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      this.$modal
+        .confirm('是否确认删除药品编号为"' + ids + '"的数据项？')
+        .then(function () {
+          return delMedicine(ids);
+        })
+        .then(() => {
+          this.getList();
+          this.$modal.msgSuccess("删除成功");
+        })
+        .catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('medicine/medicine/export', {
-        ...this.queryParams
-      }, `medicine_${new Date().getTime()}.xlsx`)
-    }
-  }
+      this.download(
+        "medicine/medicine/export",
+        {
+          ...this.queryParams,
+        },
+        `medicine_${new Date().getTime()}.xlsx`
+      );
+    },
+  },
 };
 </script>
