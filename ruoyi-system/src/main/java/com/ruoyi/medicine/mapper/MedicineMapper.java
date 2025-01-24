@@ -58,4 +58,11 @@ public interface MedicineMapper
      * @return 结果
      */
     public int deleteMedicineByIds(Long[] ids);
+
+    /**
+     * 显示过期药品
+     *
+     * @return 结果
+     */
+    public List<Medicine> selectMedicineByExpired();
 }

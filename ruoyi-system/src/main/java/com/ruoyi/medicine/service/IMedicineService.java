@@ -58,4 +58,11 @@ public interface IMedicineService
      * @return 结果
      */
     public int deleteMedicineById(Long id);
+
+    /**
+     * 查询过期药品信息
+     *
+     * @return 结果
+     */
+    public List<Medicine> selectExpiredMedicine();
 }

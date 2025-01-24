@@ -45,6 +45,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
+    <select id="selectMedicineByExpired" resultMap="MedicineResult">
+        <include refid="selectMedicineVo"/>
+        <where>
+            expiry_date &lt; now()
+        </where>
+    </select>
+
     <insert id="insertMedicine" parameterType="Medicine" useGeneratedKeys="true" keyProperty="id">
         insert into medicine
         <trim prefix="(" suffix=")" suffixOverrides=",">
