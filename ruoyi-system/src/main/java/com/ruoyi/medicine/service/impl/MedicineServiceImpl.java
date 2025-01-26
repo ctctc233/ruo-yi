@@ -3,9 +3,12 @@ package com.ruoyi.medicine.service.impl;
 import java.util.List;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.medicine.domain.Batch;
+import com.ruoyi.medicine.domain.MedicinePro;
+import com.ruoyi.medicine.domain.Specificationattribute;
+import com.ruoyi.medicine.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.medicine.mapper.MedicineMapper;
 import com.ruoyi.medicine.domain.Medicine;
 import com.ruoyi.medicine.service.IMedicineService;
 
@@ -19,6 +22,15 @@ import com.ruoyi.medicine.service.IMedicineService;
 public class MedicineServiceImpl implements IMedicineService {
 	@Autowired
 	private MedicineMapper medicineMapper;
+	@Autowired
+	private BatchMapper batchMapper;
+	@Autowired
+	private SpecificationattributeMapper specificationattributeMapper;
+
+	@Autowired
+	private MedicineBatchMapper medicineBatchMapper;
+	@Autowired
+	private MedicinestorageMapper medicinestorageMapper;
 
 	/**
 	 * 查询药品
@@ -45,12 +57,36 @@ public class MedicineServiceImpl implements IMedicineService {
 	/**
 	 * 新增药品
 	 *
-	 * @param medicine 药品
+	 * @param medicinePro 药品
 	 * @return 结果
 	 */
 	@Override
-	public int insertMedicine(Medicine medicine) {
-		medicine.setCreateTime(DateUtils.getNowDate());
+	public int insertMedicine(MedicinePro medicinePro) {
+//		medicine.setCreateTime(DateUtils.getNowDate());
+//		return medicineMapper.insertMedicine(medicine);
+
+		/*插入批号*/
+		Batch batch = new Batch();
+		batch.setBatchNumber(medicinePro.getBatchNumber());
+		batchMapper.insertBatch(batch);
+
+		/*插入规格*/
+		Specificationattribute specificationattribute = new Specificationattribute();
+		specificationattribute.setAttributeKey(medicinePro.getAttributeKey());
+		specificationattribute.setAttributeValue(medicinePro.getAttributeValue());
+		specificationattributeMapper.insertSpecificationattribute(specificationattribute);
+
+		/*插入药品*/
+		Medicine medicine = new Medicine();
+		medicine.setName(medicinePro.getName());
+		medicine.setNumber(medicinePro.getNumber());
+		medicine.setBrand(medicinePro.getBrand());
+		medicine.setSpecificationAttributeId(specificationattribute.getId());
+		medicine.setProductionDate(medicinePro.getProductionDate());
+		medicine.setExpiryDate(medicinePro.getExpiryDate());
+		medicine.setManufacturer(medicinePro.getManufacturer());
+		medicine.setUnit(medicinePro.getUnit());
+		medicine.setCount(medicinePro.getCount());
 		return medicineMapper.insertMedicine(medicine);
 	}
 

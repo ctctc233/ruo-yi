@@ -1,8 +1,10 @@
 package com.ruoyi.web.controller.medicine;
 
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.medicine.domain.MedicinePro;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,7 +74,29 @@ public class MedicineController extends BaseController {
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:add')")
 	@Log(title = "药品", businessType = BusinessType.INSERT)
 	@PostMapping
-	public AjaxResult add(@RequestBody Medicine medicine) {
+	public AjaxResult add(@RequestBody MedicinePro medicine) {
+//		System.out.println(medicine);
+//		// 创建假数据
+//		Long id = 1L;
+//		String batchNumber = "BATCH12345";
+//		String name = "感冒灵";
+//		Long number = 1001L;
+//		String brand = "白云山";
+//		String attributeKey = "规格";
+//		String attributeValue = "10片/盒";
+//		Date productionDate = new Date(); // 当前时间作为生产日期
+//		Date expiryDate = new Date(System.currentTimeMillis() + 365L * 24 * 60 * 60 * 1000); // 一年后过期
+//		String manufacturer = "白云山制药厂";
+//		String unit = "盒";
+//		Long count = 100L;
+//		Long status = 0L; // 0：正常
+//
+//		// 使用有参构造器创建对象
+//		MedicinePro medicinePro = new MedicinePro(
+//				id, batchNumber, name, number, brand, attributeKey, attributeValue,
+//				productionDate, expiryDate, manufacturer, unit, count, status
+//		);
+
 		return toAjax(medicineService.insertMedicine(medicine));
 	}
 

@@ -2,6 +2,7 @@ package com.ruoyi.medicine.service;
 
 import java.util.List;
 import com.ruoyi.medicine.domain.Medicine;
+import com.ruoyi.medicine.domain.MedicinePro;
 
 /**
  * 药品Service接口
@@ -33,7 +34,7 @@ public interface IMedicineService
      * @param medicine 药品
      * @return 结果
      */
-    public int insertMedicine(Medicine medicine);
+    public int insertMedicine(MedicinePro medicine);
 
     /**
      * 修改药品
