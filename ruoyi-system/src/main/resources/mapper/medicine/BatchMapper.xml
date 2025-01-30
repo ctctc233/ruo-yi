@@ -27,6 +27,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
+    <select id="selectBatchByBatchNumber" resultType="java.lang.Long">
+        select id from batch where batch_number = #{batchNumber}
+    </select>
+
     <insert id="insertBatch" parameterType="Batch" useGeneratedKeys="true" keyProperty="id">
         insert into batch
         <trim prefix="(" suffix=")" suffixOverrides=",">

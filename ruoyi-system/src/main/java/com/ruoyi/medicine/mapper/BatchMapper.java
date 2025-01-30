@@ -58,4 +58,12 @@ public interface BatchMapper
      * @return 结果
      */
     public int deleteBatchByIds(Long[] ids);
+
+    /**
+     * 通过批次号查询批次
+     *
+     * @param batchNumber 批次号
+     * @return 结果
+     */
+    public Long selectBatchByBatchNumber(String batchNumber);
 }

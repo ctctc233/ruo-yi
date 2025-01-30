@@ -75,7 +75,7 @@ public class MedicineController extends BaseController {
 	@Log(title = "药品", businessType = BusinessType.INSERT)
 	@PostMapping
 	public AjaxResult add(@RequestBody MedicinePro medicine) {
-//		System.out.println(medicine);
+		System.out.println("新增药品: " + medicine);
 //		// 创建假数据
 //		Long id = 1L;
 //		String batchNumber = "BATCH12345";

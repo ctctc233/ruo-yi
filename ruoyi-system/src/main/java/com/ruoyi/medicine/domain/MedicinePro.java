@@ -23,10 +23,10 @@ public class MedicinePro {
 
     /** 关联规格表 */
     /** 规格键 */
-    private String attributeKey;
+    private String specificationAttributekey;
 
     /** 规格值 */
-    private String attributeValue;
+    private String specificationAttributename;
 
     /** 生产时间 */
     private Date productionDate;
@@ -46,14 +46,14 @@ public class MedicinePro {
     /** 0：正常；1：停用 */
     private Long status;
 
-    public MedicinePro(Long id, String batchNumber, String name, Long number, String brand, String attributeKey, String attributeValue, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long status) {
+    public MedicinePro(Long id, String batchNumber, String name, Long number, String brand, String specificationAttributekey, String specificationAttributename, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long status) {
         this.id = id;
         this.batchNumber = batchNumber;
         this.name = name;
         this.number = number;
         this.brand = brand;
-        this.attributeKey = attributeKey;
-        this.attributeValue = attributeValue;
+        this.specificationAttributekey = specificationAttributekey;
+        this.specificationAttributename = specificationAttributename;
         this.productionDate = productionDate;
         this.expiryDate = expiryDate;
         this.manufacturer = manufacturer;
@@ -105,20 +105,20 @@ public class MedicinePro {
         this.brand = brand;
     }
 
-    public String getAttributeKey() {
-        return attributeKey;
+    public String getSpecificationAttributekey() {
+        return specificationAttributekey;
     }
 
-    public void setAttributeKey(String attributeKey) {
-        this.attributeKey = attributeKey;
+    public void setSpecificationAttributekey(String specificationAttributekey) {
+        this.specificationAttributekey = specificationAttributekey;
     }
 
-    public String getAttributeValue() {
-        return attributeValue;
+    public String getSpecificationAttributename() {
+        return specificationAttributename;
     }
 
-    public void setAttributeValue(String attributeValue) {
-        this.attributeValue = attributeValue;
+    public void setSpecificationAttributename(String specificationAttributename) {
+        this.specificationAttributename = specificationAttributename;
     }
 
     public Date getProductionDate() {
@@ -177,8 +177,8 @@ public class MedicinePro {
                 ", name='" + name + '\'' +
                 ", number=" + number +
                 ", brand='" + brand + '\'' +
-                ", attributeKey='" + attributeKey + '\'' +
-                ", attributeValue='" + attributeValue + '\'' +
+                ", specificationAttributekey='" + specificationAttributekey + '\'' +
+                ", specificationAttributename='" + specificationAttributename + '\'' +
                 ", productionDate=" + productionDate +
                 ", expiryDate=" + expiryDate +
                 ", manufacturer='" + manufacturer + '\'' +

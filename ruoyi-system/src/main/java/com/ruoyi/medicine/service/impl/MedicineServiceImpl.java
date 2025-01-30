@@ -3,13 +3,10 @@ package com.ruoyi.medicine.service.impl;
 import java.util.List;
 
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.medicine.domain.Batch;
-import com.ruoyi.medicine.domain.MedicinePro;
-import com.ruoyi.medicine.domain.Specificationattribute;
+import com.ruoyi.medicine.domain.*;
 import com.ruoyi.medicine.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.medicine.domain.Medicine;
 import com.ruoyi.medicine.service.IMedicineService;
 
 /**
@@ -65,15 +62,10 @@ public class MedicineServiceImpl implements IMedicineService {
 //		medicine.setCreateTime(DateUtils.getNowDate());
 //		return medicineMapper.insertMedicine(medicine);
 
-		/*插入批号*/
-		Batch batch = new Batch();
-		batch.setBatchNumber(medicinePro.getBatchNumber());
-		batchMapper.insertBatch(batch);
-
 		/*插入规格*/
 		Specificationattribute specificationattribute = new Specificationattribute();
-		specificationattribute.setAttributeKey(medicinePro.getAttributeKey());
-		specificationattribute.setAttributeValue(medicinePro.getAttributeValue());
+		specificationattribute.setAttributeKey(medicinePro.getSpecificationAttributekey());
+		specificationattribute.setAttributeValue(medicinePro.getSpecificationAttributename());
 		specificationattributeMapper.insertSpecificationattribute(specificationattribute);
 
 		/*插入药品*/
@@ -87,7 +79,14 @@ public class MedicineServiceImpl implements IMedicineService {
 		medicine.setManufacturer(medicinePro.getManufacturer());
 		medicine.setUnit(medicinePro.getUnit());
 		medicine.setCount(medicinePro.getCount());
-		return medicineMapper.insertMedicine(medicine);
+		medicineMapper.insertMedicine(medicine);
+
+		/*插入批号*/
+		MedicineBatch medicineBatch = new MedicineBatch();
+		medicineBatch.setBatchId(batchMapper.selectBatchByBatchNumber(medicinePro.getBatchNumber()));
+		medicineBatch.setMedicineId(medicine.getId());
+		medicineBatchMapper.insertMedicineBatch(medicineBatch);
+		return 1;
 	}
 
 	/**

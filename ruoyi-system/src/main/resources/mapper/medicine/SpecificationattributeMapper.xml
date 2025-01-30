@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.medicine.mapper.SpecificationattributeMapper">
-    
+
     <resultMap type="Specificationattribute" id="SpecificationattributeResult">
-        <result property="id"    column="id"    />
-        <result property="attributeKey"    column="attribute_key"    />
-        <result property="attributeValue"    column="attribute_value"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateTime"    column="update_time"    />
+        <result property="id" column="id"/>
+        <result property="attributeKey" column="attribute_key"/>
+        <result property="attributeValue" column="attribute_value"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="selectSpecificationattributeVo">
-        select id, attribute_key, attribute_value, create_time, update_time from specificationattribute
+        select id, attribute_key, attribute_value, create_time, update_time
+        from specificationattribute
     </sql>
 
-    <select id="selectSpecificationattributeList" parameterType="Specificationattribute" resultMap="SpecificationattributeResult">
+    <select id="selectSpecificationattributeList" parameterType="Specificationattribute"
+            resultMap="SpecificationattributeResult">
         <include refid="selectSpecificationattributeVo"/>
-        <where>  
-            <if test="attributeKey != null  and attributeKey != ''"> and attribute_key = #{attributeKey}</if>
-            <if test="attributeValue != null  and attributeValue != ''"> and attribute_value = #{attributeValue}</if>
+        <where>
+            <if test="attributeKey != null  and attributeKey != ''">and attribute_key = #{attributeKey}</if>
+            <if test="attributeValue != null  and attributeValue != ''">and attribute_value = #{attributeValue}</if>
         </where>
     </select>
-    
+
     <select id="selectSpecificationattributeById" parameterType="Long" resultMap="SpecificationattributeResult">
         <include refid="selectSpecificationattributeVo"/>
         where id = #{id}
     </select>
 
-    <insert id="insertSpecificationattribute" parameterType="Specificationattribute" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSpecificationattribute" parameterType="Specificationattribute" useGeneratedKeys="true"
+            keyProperty="id">
         insert into specificationattribute
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="attributeKey != null and attributeKey != ''">attribute_key,</if>
             <if test="attributeValue != null and attributeValue != ''">attribute_value,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="attributeKey != null and attributeKey != ''">#{attributeKey},</if>
             <if test="attributeValue != null and attributeValue != ''">#{attributeValue},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSpecificationattribute" parameterType="Specificationattribute">
@@ -57,11 +60,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSpecificationattributeById" parameterType="Long">
-        delete from specificationattribute where id = #{id}
+        delete
+        from specificationattribute
+        where id = #{id}
     </delete>
 
     <delete id="deleteSpecificationattributeByIds" parameterType="String">
-        delete from specificationattribute where id in 
+        delete from specificationattribute where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
