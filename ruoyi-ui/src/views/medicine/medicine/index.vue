@@ -266,10 +266,27 @@
           <el-input v-model="form.brand" placeholder="请输入品牌" />
         </el-form-item>
         <el-form-item label="规格健" prop="specificationAttributekey">
-          <el-input v-model="form.specificationAttributekey" placeholder="请输入规格健" />
+          <el-input
+            v-model="form.specificationAttributekey"
+            placeholder="请输入规格健"
+          />
         </el-form-item>
         <el-form-item label="规格值" prop="specificationAttributename">
-          <el-input v-model="form.specificationAttributename" placeholder="请输入规格值" />
+          <el-input
+            v-model="form.specificationAttributename"
+            placeholder="请输入规格值"
+          />
+        </el-form-item>
+        <el-form-item label="药品批次" prop="batchNumber">
+          <el-select v-model="form.batchNumber" placeholder="请选择批次编号">
+            <el-option
+              v-for="item in batchList"
+              :key="item.id"
+              :label="item.batchNumber"
+              :value="item.batchNumber"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="生产时间" prop="productionDate">
           <el-date-picker
@@ -327,6 +344,14 @@ import {
   addMedicine,
   updateMedicine,
 } from "@/api/medicine/medicine";
+import {
+  getListBatch,
+  listBatch,
+  getBatch,
+  delBatch,
+  addBatch,
+  updateBatch,
+} from "@/api/medicine/batch";
 
 export default {
   name: "Medicine",
@@ -347,6 +372,8 @@ export default {
       total: 0,
       // 药品表格数据
       medicineList: [],
+      //批次表数据
+      batchList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -358,6 +385,7 @@ export default {
         name: null,
         number: null,
         brand: null,
+        batchNumber:null,
         specificationAttributekey: null,
         specificationAttributename: null,
         productionDate: null,
@@ -398,6 +426,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getBranchList();
   },
   methods: {
     getSpecificationName(specificationAttributeId) {
@@ -417,6 +446,19 @@ export default {
         this.loading = false;
       });
     },
+
+    /** 查询批次列表 */
+    getBranchList() {
+      this.loading = true;
+      getListBatch().then((response) => {
+        this.batchList = response.rows;
+        console.log(response.rows);
+        console.log(this.batchList);
+        // this.batchList = response.rows;
+        // this.total = response.total;
+        // this.loading = false;
+      });
+    },
     // 取消按钮
     cancel() {
       this.open = false;
@@ -429,6 +471,7 @@ export default {
         name: null,
         number: null,
         brand: null,
+        batchNumber:null,
         specificationAttributeId: null,
         productionDate: null,
         expiryDate: null,

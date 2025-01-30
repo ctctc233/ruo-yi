@@ -9,6 +9,12 @@ export function listBatch(query) {
   })
 }
 
+export function getListBatch() {
+  return request({
+    url: '/medicine/batch/list',
+    method: 'get',
+  })
+}
 // 查询批次详细
 export function getBatch(id) {
   return request({
