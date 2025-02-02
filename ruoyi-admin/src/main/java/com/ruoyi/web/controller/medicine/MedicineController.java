@@ -1,28 +1,21 @@
 package com.ruoyi.web.controller.medicine;
 
-import java.util.Date;
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
-import com.ruoyi.medicine.domain.MedicinePro;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.medicine.domain.Medicine;
-import com.ruoyi.medicine.service.IMedicineService;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.medicine.domain.Medicine;
+import com.ruoyi.medicine.domain.MedicinePro;
+import com.ruoyi.medicine.service.IMedicineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 药品Controller
@@ -76,26 +69,24 @@ public class MedicineController extends BaseController {
 	@PostMapping
 	public AjaxResult add(@RequestBody MedicinePro medicine) {
 		System.out.println("新增药品: " + medicine);
-//		// 创建假数据
+		// 创建假数据
 //		Long id = 1L;
 //		String batchNumber = "BATCH12345";
-//		String name = "感冒灵";
+//		String location = "仓库B";
+//		String name = "阿莫西林";
 //		Long number = 1001L;
-//		String brand = "白云山";
+//		String brand = "xxx";
 //		String attributeKey = "规格";
 //		String attributeValue = "10片/盒";
 //		Date productionDate = new Date(); // 当前时间作为生产日期
 //		Date expiryDate = new Date(System.currentTimeMillis() + 365L * 24 * 60 * 60 * 1000); // 一年后过期
-//		String manufacturer = "白云山制药厂";
+//		String manufacturer = "阿莫西林生制药厂";
 //		String unit = "盒";
 //		Long count = 100L;
 //		Long status = 0L; // 0：正常
 //
 //		// 使用有参构造器创建对象
-//		MedicinePro medicinePro = new MedicinePro(
-//				id, batchNumber, name, number, brand, attributeKey, attributeValue,
-//				productionDate, expiryDate, manufacturer, unit, count, status
-//		);
+//		MedicinePro m = new MedicinePro(id, batchNumber, location, name, number, brand, attributeKey, attributeValue, productionDate, expiryDate, manufacturer, unit, count, status);
 
 		return toAjax(medicineService.insertMedicine(medicine));
 	}

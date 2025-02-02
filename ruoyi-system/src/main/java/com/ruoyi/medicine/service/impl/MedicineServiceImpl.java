@@ -23,6 +23,8 @@ public class MedicineServiceImpl implements IMedicineService {
 	private BatchMapper batchMapper;
 	@Autowired
 	private SpecificationattributeMapper specificationattributeMapper;
+	@Autowired
+	private StorageEnvironmentMapper storageenvironmentMapper;
 
 	@Autowired
 	private MedicineBatchMapper medicineBatchMapper;
@@ -86,6 +88,12 @@ public class MedicineServiceImpl implements IMedicineService {
 		medicineBatch.setBatchId(batchMapper.selectBatchByBatchNumber(medicinePro.getBatchNumber()));
 		medicineBatch.setMedicineId(medicine.getId());
 		medicineBatchMapper.insertMedicineBatch(medicineBatch);
+
+		/*插入库存*/
+		Medicinestorage medicinestorage = new Medicinestorage();
+		medicinestorage.setMedicineId(medicine.getId());
+		medicinestorage.setStorageEnvId(storageenvironmentMapper.selectStorageEnvironmentId(medicinePro.getLocation()));
+		medicinestorageMapper.insertMedicinestorage(medicinestorage);
 		return 1;
 	}
 

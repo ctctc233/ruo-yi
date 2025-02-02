@@ -4,9 +4,9 @@ import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.medicine.mapper.StorageenvironmentMapper;
-import com.ruoyi.medicine.domain.Storageenvironment;
-import com.ruoyi.medicine.service.IStorageenvironmentService;
+import com.ruoyi.medicine.mapper.StorageEnvironmentMapper;
+import com.ruoyi.medicine.domain.StorageEnvironment;
+import com.ruoyi.medicine.service.IStorageEnvironmentService;
 
 /**
  * 存放环境Service业务层处理
@@ -15,10 +15,10 @@ import com.ruoyi.medicine.service.IStorageenvironmentService;
  * @date 2025-01-24
  */
 @Service
-public class StorageenvironmentServiceImpl implements IStorageenvironmentService 
+public class StorageEnvironmentServiceImpl implements IStorageEnvironmentService
 {
     @Autowired
-    private StorageenvironmentMapper storageenvironmentMapper;
+    private StorageEnvironmentMapper storageenvironmentMapper;
 
     /**
      * 查询存放环境
@@ -27,9 +27,9 @@ public class StorageenvironmentServiceImpl implements IStorageenvironmentService
      * @return 存放环境
      */
     @Override
-    public Storageenvironment selectStorageenvironmentById(Long id)
+    public StorageEnvironment selectStorageEnvironmentById(Long id)
     {
-        return storageenvironmentMapper.selectStorageenvironmentById(id);
+        return storageenvironmentMapper.selectStorageEnvironmentById(id);
     }
 
     /**
@@ -39,9 +39,9 @@ public class StorageenvironmentServiceImpl implements IStorageenvironmentService
      * @return 存放环境
      */
     @Override
-    public List<Storageenvironment> selectStorageenvironmentList(Storageenvironment storageenvironment)
+    public List<StorageEnvironment> selectStorageEnvironmentList(StorageEnvironment storageenvironment)
     {
-        return storageenvironmentMapper.selectStorageenvironmentList(storageenvironment);
+        return storageenvironmentMapper.selectStorageEnvironmentList(storageenvironment);
     }
 
     /**
@@ -51,10 +51,10 @@ public class StorageenvironmentServiceImpl implements IStorageenvironmentService
      * @return 结果
      */
     @Override
-    public int insertStorageenvironment(Storageenvironment storageenvironment)
+    public int insertStorageEnvironment(StorageEnvironment storageenvironment)
     {
         storageenvironment.setCreateTime(DateUtils.getNowDate());
-        return storageenvironmentMapper.insertStorageenvironment(storageenvironment);
+        return storageenvironmentMapper.insertStorageEnvironment(storageenvironment);
     }
 
     /**
@@ -64,10 +64,10 @@ public class StorageenvironmentServiceImpl implements IStorageenvironmentService
      * @return 结果
      */
     @Override
-    public int updateStorageenvironment(Storageenvironment storageenvironment)
+    public int updateStorageEnvironment(StorageEnvironment storageenvironment)
     {
         storageenvironment.setUpdateTime(DateUtils.getNowDate());
-        return storageenvironmentMapper.updateStorageenvironment(storageenvironment);
+        return storageenvironmentMapper.updateStorageEnvironment(storageenvironment);
     }
 
     /**
@@ -77,9 +77,9 @@ public class StorageenvironmentServiceImpl implements IStorageenvironmentService
      * @return 结果
      */
     @Override
-    public int deleteStorageenvironmentByIds(Long[] ids)
+    public int deleteStorageEnvironmentByIds(Long[] ids)
     {
-        return storageenvironmentMapper.deleteStorageenvironmentByIds(ids);
+        return storageenvironmentMapper.deleteStorageEnvironmentByIds(ids);
     }
 
     /**
@@ -89,8 +89,8 @@ public class StorageenvironmentServiceImpl implements IStorageenvironmentService
      * @return 结果
      */
     @Override
-    public int deleteStorageenvironmentById(Long id)
+    public int deleteStorageEnvironmentById(Long id)
     {
-        return storageenvironmentMapper.deleteStorageenvironmentById(id);
+        return storageenvironmentMapper.deleteStorageEnvironmentById(id);
     }
 }

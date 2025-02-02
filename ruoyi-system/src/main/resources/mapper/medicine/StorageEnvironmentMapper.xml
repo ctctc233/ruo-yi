@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.medicine.mapper.StorageenvironmentMapper">
+<mapper namespace="com.ruoyi.medicine.mapper.StorageEnvironmentMapper">
     
-    <resultMap type="Storageenvironment" id="StorageenvironmentResult">
+    <resultMap type="StorageEnvironment" id="StorageEnvironmentResult">
         <result property="id"    column="id"    />
         <result property="location"    column="location"    />
         <result property="temperature"    column="temperature"    />
@@ -12,24 +12,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
-    <sql id="selectStorageenvironmentVo">
+    <sql id="selectStorageEnvironmentVo">
         select id, location, temperature, create_time, update_time from storageenvironment
     </sql>
 
-    <select id="selectStorageenvironmentList" parameterType="Storageenvironment" resultMap="StorageenvironmentResult">
-        <include refid="selectStorageenvironmentVo"/>
+    <select id="selectStorageEnvironmentList" parameterType="StorageEnvironment" resultMap="StorageEnvironmentResult">
+        <include refid="selectStorageEnvironmentVo"/>
         <where>  
             <if test="location != null  and location != ''"> and location = #{location}</if>
             <if test="temperature != null  and temperature != ''"> and temperature = #{temperature}</if>
         </where>
     </select>
     
-    <select id="selectStorageenvironmentById" parameterType="Long" resultMap="StorageenvironmentResult">
-        <include refid="selectStorageenvironmentVo"/>
+    <select id="selectStorageEnvironmentById" parameterType="Long" resultMap="StorageEnvironmentResult">
+        <include refid="selectStorageEnvironmentVo"/>
         where id = #{id}
     </select>
 
-    <insert id="insertStorageenvironment" parameterType="Storageenvironment" useGeneratedKeys="true" keyProperty="id">
+    <select id="selectStorageEnvironmentId" resultType="java.lang.Long">
+        select id from storageenvironment
+        <where>
+            location = #{location}
+        </where>
+    </select>
+
+    <insert id="insertStorageEnvironment" parameterType="StorageEnvironment" useGeneratedKeys="true" keyProperty="id">
         insert into storageenvironment
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="location != null and location != ''">location,</if>
@@ -45,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateStorageenvironment" parameterType="Storageenvironment">
+    <update id="updateStorageEnvironment" parameterType="StorageEnvironment">
         update storageenvironment
         <trim prefix="SET" suffixOverrides=",">
             <if test="location != null and location != ''">location = #{location},</if>
@@ -56,11 +63,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteStorageenvironmentById" parameterType="Long">
+    <delete id="deleteStorageEnvironmentById" parameterType="Long">
         delete from storageenvironment where id = #{id}
     </delete>
 
-    <delete id="deleteStorageenvironmentByIds" parameterType="String">
+    <delete id="deleteStorageEnvironmentByIds" parameterType="String">
         delete from storageenvironment where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}

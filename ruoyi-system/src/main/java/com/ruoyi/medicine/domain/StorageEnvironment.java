@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2025-01-24
  */
-public class Storageenvironment extends BaseEntity
+public class StorageEnvironment extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 

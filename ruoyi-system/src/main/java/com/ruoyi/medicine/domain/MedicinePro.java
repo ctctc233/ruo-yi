@@ -6,174 +6,216 @@ import com.ruoyi.common.annotation.Excel;
 import java.util.Date;
 
 public class MedicinePro {
-    /** 药品id */
-    private Long id;
+	/**
+	 * 药品id
+	 */
+	private Long id;
 
-    /** 批号 */
-    private String batchNumber;
+	/**
+	 * 批号
+	 */
+	private String batchNumber;
 
-    /** 名字 */
-    private String name;
+	/**
+	 * 存储地点
+	 */
+	private String location;
 
-    /** 编号 */
-    private Long number;
+	/**
+	 * 名字
+	 */
+	private String name;
 
-    /** 品牌 */
-    private String brand;
+	/**
+	 * 编号
+	 */
+	private Long number;
 
-    /** 关联规格表 */
-    /** 规格键 */
-    private String specificationAttributekey;
+	/**
+	 * 品牌
+	 */
+	private String brand;
 
-    /** 规格值 */
-    private String specificationAttributename;
+	/** 关联规格表 */
+	/**
+	 * 规格键
+	 */
+	private String specificationAttributekey;
 
-    /** 生产时间 */
-    private Date productionDate;
+	/**
+	 * 规格值
+	 */
+	private String specificationAttributename;
 
-    /** 过期时间 */
-    private Date expiryDate;
+	/**
+	 * 生产时间
+	 */
+	private Date productionDate;
 
-    /** 厂商 */
-    private String manufacturer;
+	/**
+	 * 过期时间
+	 */
+	private Date expiryDate;
 
-    /** 单位 */
-    private String unit;
+	/**
+	 * 厂商
+	 */
+	private String manufacturer;
 
-    /** 数量 */
-    private Long count;
+	/**
+	 * 单位
+	 */
+	private String unit;
 
-    /** 0：正常；1：停用 */
-    private Long status;
+	/**
+	 * 数量
+	 */
+	private Long count;
 
-    public MedicinePro(Long id, String batchNumber, String name, Long number, String brand, String specificationAttributekey, String specificationAttributename, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long status) {
-        this.id = id;
-        this.batchNumber = batchNumber;
-        this.name = name;
-        this.number = number;
-        this.brand = brand;
-        this.specificationAttributekey = specificationAttributekey;
-        this.specificationAttributename = specificationAttributename;
-        this.productionDate = productionDate;
-        this.expiryDate = expiryDate;
-        this.manufacturer = manufacturer;
-        this.unit = unit;
-        this.count = count;
-        this.status = status;
-    }
+	/**
+	 * 0：正常；1：停用
+	 */
+	private Long status;
 
-    public MedicinePro() {
-    }
 
-    public Long getId() {
-        return id;
-    }
+	public MedicinePro(Long id, String batchNumber, String location, String name, Long number, String brand, String specificationAttributekey, String specificationAttributename, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long status) {
+		this.id = id;
+		this.batchNumber = batchNumber;
+		this.location = location;
+		this.name = name;
+		this.number = number;
+		this.brand = brand;
+		this.specificationAttributekey = specificationAttributekey;
+		this.specificationAttributename = specificationAttributename;
+		this.productionDate = productionDate;
+		this.expiryDate = expiryDate;
+		this.manufacturer = manufacturer;
+		this.unit = unit;
+		this.count = count;
+		this.status = status;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public MedicinePro() {
+	}
 
-    public String getBatchNumber() {
-        return batchNumber;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setBatchNumber(String batchNumber) {
-        this.batchNumber = batchNumber;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getBatchNumber() {
+		return batchNumber;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setBatchNumber(String batchNumber) {
+		this.batchNumber = batchNumber;
+	}
 
-    public Long getNumber() {
-        return number;
-    }
+	public String getLocation() {
+		return location;
+	}
 
-    public void setNumber(Long number) {
-        this.number = number;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-    public String getBrand() {
-        return brand;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getSpecificationAttributekey() {
-        return specificationAttributekey;
-    }
+	public Long getNumber() {
+		return number;
+	}
 
-    public void setSpecificationAttributekey(String specificationAttributekey) {
-        this.specificationAttributekey = specificationAttributekey;
-    }
+	public void setNumber(Long number) {
+		this.number = number;
+	}
 
-    public String getSpecificationAttributename() {
-        return specificationAttributename;
-    }
+	public String getBrand() {
+		return brand;
+	}
 
-    public void setSpecificationAttributename(String specificationAttributename) {
-        this.specificationAttributename = specificationAttributename;
-    }
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
 
-    public Date getProductionDate() {
-        return productionDate;
-    }
+	public String getSpecificationAttributekey() {
+		return specificationAttributekey;
+	}
 
-    public void setProductionDate(Date productionDate) {
-        this.productionDate = productionDate;
-    }
+	public void setSpecificationAttributekey(String specificationAttributekey) {
+		this.specificationAttributekey = specificationAttributekey;
+	}
 
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
+	public String getSpecificationAttributename() {
+		return specificationAttributename;
+	}
 
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
+	public void setSpecificationAttributename(String specificationAttributename) {
+		this.specificationAttributename = specificationAttributename;
+	}
 
-    public String getManufacturer() {
-        return manufacturer;
-    }
+	public Date getProductionDate() {
+		return productionDate;
+	}
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
+	public void setProductionDate(Date productionDate) {
+		this.productionDate = productionDate;
+	}
 
-    public String getUnit() {
-        return unit;
-    }
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
 
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
 
-    public Long getCount() {
-        return count;
-    }
+	public String getManufacturer() {
+		return manufacturer;
+	}
 
-    public void setCount(Long count) {
-        this.count = count;
-    }
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
 
-    public Long getStatus() {
-        return status;
-    }
+	public String getUnit() {
+		return unit;
+	}
 
-    public void setStatus(Long status) {
-        this.status = status;
-    }
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public Long getCount() {
+		return count;
+	}
+
+	public void setCount(Long count) {
+		this.count = count;
+	}
+
+	public Long getStatus() {
+		return status;
+	}
+
+	public void setStatus(Long status) {
+		this.status = status;
+	}
 
     @Override
     public String toString() {
         return "MedicinePro{" +
                 "id=" + id +
                 ", batchNumber='" + batchNumber + '\'' +
+                ", location='" + location + '\'' +
                 ", name='" + name + '\'' +
                 ", number=" + number +
                 ", brand='" + brand + '\'' +
