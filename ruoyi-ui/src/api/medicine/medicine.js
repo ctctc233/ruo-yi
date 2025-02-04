@@ -9,6 +9,14 @@ export function listMedicine(query) {
   })
 }
 
+export function MedicineType() {
+  return request({
+    url: '/api/medicine',
+    method: 'get',
+  })
+}
+
+
 // 查询药品详细
 export function getMedicine(id) {
   return request({

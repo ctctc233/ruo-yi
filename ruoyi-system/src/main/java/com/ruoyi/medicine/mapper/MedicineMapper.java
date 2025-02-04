@@ -19,6 +19,11 @@ public interface MedicineMapper
      */
     public Medicine selectMedicineById(Long id);
 
+    /*
+    * 查询药品信息
+    * */
+
+//    public Medicine selectAllMedicines();
     /**
      * 查询药品列表
      * 

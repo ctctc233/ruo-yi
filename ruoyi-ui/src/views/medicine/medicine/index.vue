@@ -339,6 +339,7 @@
 <script>
 import {
   listMedicine,
+  MedicineType,
   getMedicine,
   delMedicine,
   addMedicine,
@@ -404,6 +405,7 @@ export default {
         { id: 3, key: "测试", name: "规格C" },
         // 其他的规格...
       ],
+
       rules: {
         name: [{ required: true, message: "名字不能为空", trigger: "blur" }],
         number: [{ required: true, message: "编号不能为空", trigger: "blur" }],
@@ -423,11 +425,13 @@ export default {
           { required: true, message: "修改时间不能为空", trigger: "blur" },
         ],
       },
+      MedicineType:{},
     };
   },
   created() {
     this.getList();
     this.getBranchList();
+    this.getMedicineType();
   },
   methods: {
     getSpecificationName(specificationAttributeId) {
@@ -438,6 +442,15 @@ export default {
         ? `${specification.key}:${specification.name}`
         : "未知规格";
     },
+
+    getMedicineType() { 
+      MedicineType().then((response) => {
+        console.log(response);
+        this.form= response;
+        // this.MedicineType = response;
+        // console.log(this.MedicineType);
+      });
+     },
     /** 查询药品列表 */
     getList() {
       this.loading = true;
@@ -453,8 +466,8 @@ export default {
       this.loading = true;
       getListBatch().then((response) => {
         this.batchList = response.rows;
-        console.log(response.rows);
-        console.log(this.batchList);
+        // console.log(response.rows);
+        // console.log(this.batchList);
         // this.batchList = response.rows;
         // this.total = response.total;
         // this.loading = false;

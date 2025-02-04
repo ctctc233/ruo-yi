@@ -24,6 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, name, number, brand, specification_attribute_id, production_date, expiry_date, manufacturer, unit, count, status, create_time, update_time from medicine
     </sql>
 
+
+
     <select id="selectMedicineList" parameterType="Medicine" resultMap="MedicineResult">
         <include refid="selectMedicineVo"/>
         <where>  

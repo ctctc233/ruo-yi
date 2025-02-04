@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.medicine.mapper.MedicineTypeMapper">
+    <!--根据相关关联表查询药品的所有信息-->
+    <select id="selectAllMedicines" resultType="com.ruoyi.medicine.domain.MedicineType">
+        SELECT
+            m.number AS number,
+            m.name AS name,
+            m.brand AS brand,
+            sa.attribute_key AS attribute_key,
+            m.expiry_date AS expiry_date,
+            m.manufacturer AS manufacturer,
+            m.unit AS unit,
+            m.count AS count,
+            CASE
+                WHEN m.status = 0 THEN '正常'
+                ELSE '停用'
+                END AS status,
+            se.location AS location,
+            se.temperature AS temperature
+        FROM
+            Medicine m
+                LEFT JOIN
+            SpecificationAttribute sa ON m.specification_attribute_id = sa.id
+                LEFT JOIN
+            MedicineStorage ms ON m.id = ms.medicine_id
+                LEFT JOIN
+            StorageEnvironment se ON ms.storage_env_id = se.id;
+    </select>
+</mapper>
