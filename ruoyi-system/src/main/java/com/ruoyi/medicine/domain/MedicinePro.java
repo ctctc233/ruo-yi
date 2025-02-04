@@ -1,11 +1,12 @@
 package com.ruoyi.medicine.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Date;
 
-public class MedicinePro {
+public class MedicinePro extends BaseEntity {
 	/**
 	 * 药品id
 	 */
@@ -37,6 +38,7 @@ public class MedicinePro {
 	private String brand;
 
 	/** 关联规格表 */
+	private Long specificationAttributeId;
 	/**
 	 * 规格键
 	 */
@@ -78,13 +80,14 @@ public class MedicinePro {
 	private Long status;
 
 
-	public MedicinePro(Long id, String batchNumber, String location, String name, Long number, String brand, String specificationAttributekey, String specificationAttributename, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long status) {
+	public MedicinePro(Long id, String batchNumber, String location, String name, Long number, String brand, Long specificationAttributeId, String specificationAttributekey, String specificationAttributename, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long status) {
 		this.id = id;
 		this.batchNumber = batchNumber;
 		this.location = location;
 		this.name = name;
 		this.number = number;
 		this.brand = brand;
+		this.specificationAttributeId = specificationAttributeId;
 		this.specificationAttributekey = specificationAttributekey;
 		this.specificationAttributename = specificationAttributename;
 		this.productionDate = productionDate;
@@ -144,6 +147,14 @@ public class MedicinePro {
 
 	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+
+	public Long getSpecificationAttributeId() {
+		return specificationAttributeId;
+	}
+
+	public void setSpecificationAttributeId(Long specificationAttributeId) {
+		this.specificationAttributeId = specificationAttributeId;
 	}
 
 	public String getSpecificationAttributekey() {
@@ -210,23 +221,42 @@ public class MedicinePro {
 		this.status = status;
 	}
 
-    @Override
-    public String toString() {
-        return "MedicinePro{" +
-                "id=" + id +
-                ", batchNumber='" + batchNumber + '\'' +
-                ", location='" + location + '\'' +
-                ", name='" + name + '\'' +
-                ", number=" + number +
-                ", brand='" + brand + '\'' +
-                ", specificationAttributekey='" + specificationAttributekey + '\'' +
-                ", specificationAttributename='" + specificationAttributename + '\'' +
-                ", productionDate=" + productionDate +
-                ", expiryDate=" + expiryDate +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", unit='" + unit + '\'' +
-                ", count=" + count +
-                ", status=" + status +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+				.append("id", getId())
+				.append("batchNumber", getBatchNumber())
+				.append("location", getLocation())
+				.append("name", getName())
+				.append("number", getNumber())
+				.append("brand", getBrand())
+				.append("specificationAttributeId", getSpecificationAttributeId())
+				.append("specificationAttributekey", getSpecificationAttributekey())
+				.append("specificationAttributename", getSpecificationAttributename())
+				.append("productionDate", getProductionDate())
+				.append("expiryDate", getExpiryDate())
+				.append("manufacturer", getManufacturer())
+				.append("unit", getUnit())
+				.append("count", getCount())
+				.append("status", getStatus())
+				.append("createTime", getCreateTime())
+				.append("updateTime", getUpdateTime())
+				.toString();
+//        return "MedicinePro{" +
+//                "id=" + id +
+//                ", batchNumber='" + batchNumber + '\'' +
+//                ", location='" + location + '\'' +
+//                ", name='" + name + '\'' +
+//                ", number=" + number +
+//                ", brand='" + brand + '\'' +
+//                ", specificationAttributekey='" + specificationAttributekey + '\'' +
+//                ", specificationAttributename='" + specificationAttributename + '\'' +
+//                ", productionDate=" + productionDate +
+//                ", expiryDate=" + expiryDate +
+//                ", manufacturer='" + manufacturer + '\'' +
+//                ", unit='" + unit + '\'' +
+//                ", count=" + count +
+//                ", status=" + status +
+//                '}';
+	}
 }

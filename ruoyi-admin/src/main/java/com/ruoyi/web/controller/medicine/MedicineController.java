@@ -34,9 +34,13 @@ public class MedicineController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:list')")
 	@GetMapping("/list")
-	public TableDataInfo list(Medicine medicine) {
+	public TableDataInfo list(MedicinePro medicine) {
 		startPage();
-		List<Medicine> list = medicineService.selectMedicineList(medicine);
+		List<MedicinePro> list = medicineService.selectMedicineList(medicine);
+		for (MedicinePro medicine1 : list) {
+			System.out.println("查询药品: ");
+			System.out.println(medicine1);
+		}
 		return getDataTable(list);
 	}
 
@@ -46,9 +50,9 @@ public class MedicineController extends BaseController {
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:export')")
 	@Log(title = "药品", businessType = BusinessType.EXPORT)
 	@PostMapping("/export")
-	public void export(HttpServletResponse response, Medicine medicine) {
-		List<Medicine> list = medicineService.selectMedicineList(medicine);
-		ExcelUtil<Medicine> util = new ExcelUtil<Medicine>(Medicine.class);
+	public void export(HttpServletResponse response, MedicinePro medicine) {
+		List<MedicinePro> list = medicineService.selectMedicineList(medicine);
+		ExcelUtil<MedicinePro> util = new ExcelUtil<MedicinePro>(MedicinePro.class);
 		util.exportExcel(response, list, "药品数据");
 	}
 

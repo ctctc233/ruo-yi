@@ -49,7 +49,7 @@ public class MedicineServiceImpl implements IMedicineService {
 	 * @return 药品
 	 */
 	@Override
-	public List<Medicine> selectMedicineList(Medicine medicine) {
+	public List<MedicinePro> selectMedicineList(MedicinePro medicine) {
 		return medicineMapper.selectMedicineList(medicine);
 	}
 
@@ -61,7 +61,7 @@ public class MedicineServiceImpl implements IMedicineService {
 	 */
 	@Override
 	public int insertMedicine(MedicinePro medicinePro) {
-//		medicine.setCreateTime(DateUtils.getNowDate());
+		medicinePro.setCreateTime(DateUtils.getNowDate());
 //		return medicineMapper.insertMedicine(medicine);
 
 		/*插入规格*/
@@ -117,7 +117,11 @@ public class MedicineServiceImpl implements IMedicineService {
 	 */
 	@Override
 	public int deleteMedicineByIds(Long[] ids) {
-		return medicineMapper.deleteMedicineByIds(ids);
+		medicinestorageMapper.deleteMedicinestorageByMedIds(ids);
+		// 删除规格，具体实现待定（这里传参是错误的）
+		//specificationattributeMapper.deleteSpecificationattributeByIds(ids);
+		medicineMapper.deleteMedicineByIds(ids);
+		return 1;
 	}
 
 	/**
@@ -128,7 +132,9 @@ public class MedicineServiceImpl implements IMedicineService {
 	 */
 	@Override
 	public int deleteMedicineById(Long id) {
-		return medicineMapper.deleteMedicineById(id);
+		// TODO 药品删除关联表，药品库存，药品规格
+		medicineMapper.deleteMedicineById(id);
+		return 1;
 	}
 
 	/**

@@ -2,6 +2,7 @@ package com.ruoyi.medicine.mapper;
 
 import java.util.List;
 import com.ruoyi.medicine.domain.Medicine;
+import com.ruoyi.medicine.domain.MedicinePro;
 
 /**
  * 药品Mapper接口
@@ -30,7 +31,7 @@ public interface MedicineMapper
      * @param medicine 药品
      * @return 药品集合
      */
-    public List<Medicine> selectMedicineList(Medicine medicine);
+    public List<MedicinePro> selectMedicineList(MedicinePro medicine);
 
     /**
      * 新增药品

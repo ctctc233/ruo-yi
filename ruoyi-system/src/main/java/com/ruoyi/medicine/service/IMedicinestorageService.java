@@ -52,6 +52,14 @@ public interface IMedicinestorageService
     public int deleteMedicinestorageByIds(Long[] ids);
 
     /**
+     * 批量删除药品环境通过药品id
+     *
+     * @param ids 需要删除的药品主键集合
+     * @return 结果
+     */
+    public int deleteMedicinestorageByMedIds(Long[] ids);
+
+    /**
      * 删除药品环境信息
      * 
      * @param id 药品环境主键

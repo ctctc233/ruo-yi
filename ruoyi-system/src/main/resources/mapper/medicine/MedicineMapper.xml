@@ -1,47 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.medicine.mapper.MedicineMapper">
-    
-    <resultMap type="Medicine" id="MedicineResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
-        <result property="number"    column="number"    />
-        <result property="brand"    column="brand"    />
-        <result property="specificationAttributeId"    column="specification_attribute_id"    />
-        <result property="productionDate"    column="production_date"    />
-        <result property="expiryDate"    column="expiry_date"    />
-        <result property="manufacturer"    column="manufacturer"    />
-        <result property="unit"    column="unit"    />
-        <result property="count"    column="count"    />
-        <result property="status"    column="status"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateTime"    column="update_time"    />
+
+    <resultMap type="MedicinePro" id="MedicineResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="number" column="number"/>
+        <result property="brand" column="brand"/>
+        <result property="specificationAttributeId" column="specification_attribute_id"/>
+        <result property="productionDate" column="production_date"/>
+        <result property="expiryDate" column="expiry_date"/>
+        <result property="manufacturer" column="manufacturer"/>
+        <result property="unit" column="unit"/>
+        <result property="count" column="count"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="batchNumber" column="batch_id"/>
+        <result property="specificationAttributekey" column="attribute_key"/>
+        <result property="specificationAttributename" column="attribute_value"/>
+        <result property="location" column="location"/>
     </resultMap>
 
     <sql id="selectMedicineVo">
-        select id, name, number, brand, specification_attribute_id, production_date, expiry_date, manufacturer, unit, count, status, create_time, update_time from medicine
+        select id,
+               name,
+               number,
+               brand,
+               specification_attribute_id,
+               production_date,
+               expiry_date,
+               manufacturer,
+               unit,
+               count,
+               status,
+               create_time,
+               update_time
+        from medicine
     </sql>
 
 
-
     <select id="selectMedicineList" parameterType="Medicine" resultMap="MedicineResult">
-        <include refid="selectMedicineVo"/>
-        <where>  
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="number != null "> and number = #{number}</if>
-            <if test="brand != null  and brand != ''"> and brand = #{brand}</if>
-            <if test="specificationAttributeId != null "> and specification_attribute_id = #{specificationAttributeId}</if>
-            <if test="productionDate != null "> and production_date = #{productionDate}</if>
-            <if test="expiryDate != null "> and expiry_date = #{expiryDate}</if>
-            <if test="manufacturer != null  and manufacturer != ''"> and manufacturer = #{manufacturer}</if>
-            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
-            <if test="count != null "> and count = #{count}</if>
-            <if test="status != null "> and status = #{status}</if>
-        </where>
+        <!--        <include refid="selectMedicineVo"/>-->
+        <!--        <where>  -->
+        <!--            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>-->
+        <!--            <if test="number != null "> and number = #{number}</if>-->
+        <!--            <if test="brand != null  and brand != ''"> and brand = #{brand}</if>-->
+        <!--            <if test="specificationAttributeId != null "> and specification_attribute_id = #{specificationAttributeId}</if>-->
+        <!--            <if test="productionDate != null "> and production_date = #{productionDate}</if>-->
+        <!--            <if test="expiryDate != null "> and expiry_date = #{expiryDate}</if>-->
+        <!--            <if test="manufacturer != null  and manufacturer != ''"> and manufacturer = #{manufacturer}</if>-->
+        <!--            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>-->
+        <!--            <if test="count != null "> and count = #{count}</if>-->
+        <!--            <if test="status != null "> and status = #{status}</if>-->
+        <!--        </where>-->
+        SELECT
+        m.id AS id,
+        m.number AS number,
+        m.name AS name,
+        m.brand AS brand,
+        mb.batch_id AS batch_id,
+        m.specification_attribute_id AS specification_attribute_id,
+        sa.attribute_key AS attribute_key,
+        sa.attribute_value AS attribute_value,
+        m.expiry_date AS expiry_date,
+        m.manufacturer AS manufacturer,
+        m.unit AS unit,
+        m.count AS count,
+        m.status AS status,
+        se.location AS location
+        FROM
+        Medicine m
+        LEFT JOIN
+        SpecificationAttribute sa ON m.specification_attribute_id = sa.id
+        LEFT JOIN
+        MedicineStorage ms ON m.id = ms.medicine_id
+        LEFT JOIN
+        storageenvironment se ON se.id = ms.storage_env_id
+        LEFT JOIN
+        medicine_batch mb ON m.id = mb.medicine_id
     </select>
-    
+
     <select id="selectMedicineById" parameterType="Long" resultMap="MedicineResult">
         <include refid="selectMedicineVo"/>
         where id = #{id}
@@ -69,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">status,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">#{name},</if>
             <if test="number != null">#{number},</if>
@@ -83,7 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null">#{status},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateMedicine" parameterType="Medicine">
@@ -106,11 +147,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteMedicineById" parameterType="Long">
-        delete from medicine where id = #{id}
+        delete
+        from medicine
+        where id = #{id}
     </delete>
 
     <delete id="deleteMedicineByIds" parameterType="String">
-        delete from medicine where id in 
+        delete from medicine where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

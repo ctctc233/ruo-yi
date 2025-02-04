@@ -44,9 +44,9 @@ public interface MedicinestorageMapper
     public int updateMedicinestorage(Medicinestorage medicinestorage);
 
     /**
-     * 删除药品环境
+     * 删除药品环境通过药品id
      * 
-     * @param id 药品环境主键
+     * @param id 药品主键
      * @return 结果
      */
     public int deleteMedicinestorageById(Long id);
@@ -58,4 +58,12 @@ public interface MedicinestorageMapper
      * @return 结果
      */
     public int deleteMedicinestorageByIds(Long[] ids);
+
+    /**
+     * 批量删除药品环境通过药品id
+     *
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteMedicinestorageByMedIds(Long[] ids);
 }

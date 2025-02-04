@@ -26,7 +26,7 @@ public interface IMedicineService
      * @param medicine 药品
      * @return 药品集合
      */
-    public List<Medicine> selectMedicineList(Medicine medicine);
+    public List<MedicinePro> selectMedicineList(MedicinePro medicine);
 
     /**
      * 新增药品
