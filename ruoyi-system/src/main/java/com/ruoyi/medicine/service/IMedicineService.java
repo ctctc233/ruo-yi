@@ -39,10 +39,10 @@ public interface IMedicineService
     /**
      * 修改药品
      * 
-     * @param medicine 药品
+     * @param medicinePro 药品
      * @return 结果
      */
-    public int updateMedicine(Medicine medicine);
+    public int updateMedicine(MedicinePro medicinePro);
 
     /**
      * 批量删除药品

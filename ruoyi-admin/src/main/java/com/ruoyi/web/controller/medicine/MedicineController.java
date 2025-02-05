@@ -101,8 +101,8 @@ public class MedicineController extends BaseController {
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:edit')")
 	@Log(title = "药品", businessType = BusinessType.UPDATE)
 	@PutMapping
-	public AjaxResult edit(@RequestBody Medicine medicine) {
-		return toAjax(medicineService.updateMedicine(medicine));
+	public AjaxResult edit(@RequestBody MedicinePro medicinePro) {
+		return toAjax(medicineService.updateMedicine(medicinePro));
 	}
 
 	/**

@@ -100,13 +100,44 @@ public class MedicineServiceImpl implements IMedicineService {
 	/**
 	 * 修改药品
 	 *
-	 * @param medicine 药品
+	 * @param medicinePro 药品
 	 * @return 结果
 	 */
 	@Override
-	public int updateMedicine(Medicine medicine) {
+	public int updateMedicine(MedicinePro medicinePro) {
+		// TODO 药品修改关联表，药品库存，药品规格,药品批号
+		/*修改规格*/
+		Specificationattribute specificationattribute = new Specificationattribute();
+		specificationattribute.setAttributeKey(medicinePro.getSpecificationAttributekey());
+		specificationattribute.setAttributeValue(medicinePro.getSpecificationAttributename());
+		specificationattributeMapper.updateSpecificationattribute(specificationattribute);
+
+
+		/*修改药品*/
+		Medicine medicine = new Medicine();
+		medicine.setName(medicinePro.getName());
+		medicine.setNumber(medicinePro.getNumber());
+		medicine.setBrand(medicinePro.getBrand());
+		// 修改药品不需要修改规格关联id
+//		medicine.setSpecificationAttributeId(specificationattribute.getId());
+		medicine.setProductionDate(medicinePro.getProductionDate());
+		medicine.setExpiryDate(medicinePro.getExpiryDate());
+		medicine.setManufacturer(medicinePro.getManufacturer());
+		medicine.setUnit(medicinePro.getUnit());
+		medicine.setCount(medicinePro.getCount());
 		medicine.setUpdateTime(DateUtils.getNowDate());
-		return medicineMapper.updateMedicine(medicine);
+		medicineMapper.updateMedicine(medicine);
+
+		/*修改批号*/
+		MedicineBatch medicineBatch = new MedicineBatch();
+		medicineBatch.setBatchId(batchMapper.selectBatchByBatchNumber(medicinePro.getBatchNumber()));
+		medicineBatchMapper.updateMedicineBatch(medicineBatch);
+
+		/*修改库存*/
+		Medicinestorage medicinestorage = new Medicinestorage();
+		medicinestorage.setStorageEnvId(storageenvironmentMapper.selectStorageEnvironmentId(medicinePro.getLocation()));
+		medicinestorageMapper.updateMedicinestorage(medicinestorage);
+		return 1;
 	}
 
 	/**
