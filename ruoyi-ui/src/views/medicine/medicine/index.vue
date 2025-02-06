@@ -32,24 +32,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <!-- <el-form-item label="关联规格表" prop="specificationAttributeId">
-        <el-input
-          v-model="queryParams.specificationAttributeId"
-          placeholder="请输入关联规格表"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
-      <!-- <el-form-item label="生产时间" prop="productionDate">
-        <el-date-picker
-          clearable
-          v-model="queryParams.productionDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择生产时间"
-        >
-        </el-date-picker>
-      </el-form-item> -->
       <el-form-item label="过期时间" prop="expiryDate">
         <el-date-picker
           clearable
@@ -60,30 +42,6 @@
         >
         </el-date-picker>
       </el-form-item>
-      <!-- <el-form-item label="厂商" prop="manufacturer">
-        <el-input
-          v-model="queryParams.manufacturer"
-          placeholder="请输入厂商"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
-      <!-- <el-form-item label="单位" prop="unit">
-        <el-input
-          v-model="queryParams.unit"
-          placeholder="请输入单位"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
-      <!-- <el-form-item label="数量" prop="count">
-        <el-input
-          v-model="queryParams.count"
-          placeholder="请输入数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
       <el-form-item label="状态" prop="status">
         <el-select
           v-model="queryParams.status"
@@ -121,12 +79,23 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['medicine:medicine:add']"
-          >新增</el-button
+          >入库</el-button
         >
       </el-col>
       <el-col :span="1.5">
         <el-button
           type="success"
+          plain
+          icon="el-icon-delete"
+          size="mini"
+          @click="handReduce"
+          v-hasPermi="['medicine:medicine:add']"
+          >出库</el-button
+        >
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
           plain
           icon="el-icon-edit"
           size="mini"
@@ -148,7 +117,7 @@
           >删除</el-button
         >
       </el-col>
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button
           type="warning"
           plain
@@ -158,7 +127,8 @@
           v-hasPermi="['medicine:medicine:export']"
           >导出</el-button
         >
-      </el-col>
+      </el-col> -->
+      
       <right-toolbar
         :showSearch.sync="showSearch"
         @queryTable="getList"
@@ -177,22 +147,8 @@
 
       <el-table-column label="药品品牌" align="center" prop="brand" />
       <!-- 修改规格列 -->
-      <el-table-column label="规格" align="center">
-        <template slot-scope="scope">
-          {{ getSpecificationName(scope.row.specificationAttributeId) }}
-        </template>
-      </el-table-column>
-      <!-- <el-table-column
-        label="生产时间"
-        align="center"
-        prop="productionDate"
-        width="180"
-      >
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.productionDate, "{y}-{m}-{d}") }}</span>
-        </template>
-      </el-table-column> -->
-
+      <el-table-column label="规格类型" align="center" prop="specificationAttributekey"/>
+      <el-table-column label="规格值" align="center" prop="specificationAttributename"/>
       <el-table-column
         label="过期时间"
         align="center"
@@ -217,7 +173,7 @@
         </template>
       </el-table-column>
       <!--存放位置-->
-      <el-table-column label="存放位置" align="center" prop="ent" />
+      <el-table-column label="存放位置" align="center" prop="location" />
 
       <el-table-column
         label="操作"
@@ -317,6 +273,9 @@
         <el-form-item label="数量" prop="count">
           <el-input v-model="form.count" placeholder="请输入数量" />
         </el-form-item>
+        <el-form-item label="存放环境" prop="location">
+          <el-input v-model="form.location" placeholder="请输入存放环境" />
+        </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
@@ -410,6 +369,9 @@ export default {
         name: [{ required: true, message: "名字不能为空", trigger: "blur" }],
         number: [{ required: true, message: "编号不能为空", trigger: "blur" }],
         count: [{ required: true, message: "数量不能为空", trigger: "blur" }],
+        location: [{ required: true, message: "存放环境不能为空", trigger: "blur" }],
+        specificationAttributekey: [{ required: true, message: "规格类型不能为空", trigger: "blur" }],
+        specificationAttributename: [{ required: true, message: "规格名称不能为空", trigger: "blur" }],
         batchNumber: [{ required: true, message: "批次编号不能为空", trigger: "blur" }],
         status: [
           {
@@ -443,14 +405,14 @@ export default {
         : "未知规格";
     },
 
-    getMedicineType() { 
-      MedicineType().then((response) => {
-        console.log(response);
-        this.form= response;
-        // this.MedicineType = response;
-        // console.log(this.MedicineType);
-      });
-     },
+    // getMedicineType() { 
+    //   MedicineType().then((response) => {
+    //     console.log(response);
+    //     this.form= response;
+    //     // this.MedicineType = response;
+    //     // console.log(this.MedicineType);
+    //   });
+    //  },
     /** 查询药品列表 */
     getList() {
       this.loading = true;
@@ -519,6 +481,12 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加药品";
+    },
+/*** 出库管理*/
+    handReduce() {
+      this.reset();
+      this.open = true;
+      this.title = "药品出库";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
