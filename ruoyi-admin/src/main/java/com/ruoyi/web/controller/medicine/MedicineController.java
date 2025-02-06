@@ -37,10 +37,10 @@ public class MedicineController extends BaseController {
 	public TableDataInfo list(MedicinePro medicine) {
 		startPage();
 		List<MedicinePro> list = medicineService.selectMedicineList(medicine);
-		for (MedicinePro medicine1 : list) {
-			System.out.println("查询药品: ");
-			System.out.println(medicine1);
-		}
+//		for (MedicinePro medicine1 : list) {
+//			System.out.println("查询药品: ");
+//			System.out.println(medicine1);
+//		}
 		return getDataTable(list);
 	}
 

@@ -18,7 +18,7 @@ public interface IMedicineService
      * @param id 药品主键
      * @return 药品
      */
-    public Medicine selectMedicineById(Long id);
+    public MedicinePro selectMedicineById(Long id);
 
     /**
      * 查询药品列表

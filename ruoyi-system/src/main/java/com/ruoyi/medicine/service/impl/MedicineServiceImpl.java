@@ -38,7 +38,8 @@ public class MedicineServiceImpl implements IMedicineService {
 	 * @return 药品
 	 */
 	@Override
-	public Medicine selectMedicineById(Long id) {
+	public MedicinePro selectMedicineById(Long id) {
+		System.out.println("药品id:" + id);
 		return medicineMapper.selectMedicineById(id);
 	}
 
@@ -105,13 +106,13 @@ public class MedicineServiceImpl implements IMedicineService {
 	 */
 	@Override
 	public int updateMedicine(MedicinePro medicinePro) {
+		System.out.println("药品修改" + medicinePro);
 		// TODO 药品修改关联表，药品库存，药品规格,药品批号
 		/*修改规格*/
 		Specificationattribute specificationattribute = new Specificationattribute();
 		specificationattribute.setAttributeKey(medicinePro.getSpecificationAttributekey());
 		specificationattribute.setAttributeValue(medicinePro.getSpecificationAttributename());
 		specificationattributeMapper.updateSpecificationattribute(specificationattribute);
-
 
 		/*修改药品*/
 		Medicine medicine = new Medicine();

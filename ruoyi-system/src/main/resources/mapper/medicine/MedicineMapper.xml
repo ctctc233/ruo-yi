@@ -84,8 +84,35 @@
     </select>
 
     <select id="selectMedicineById" parameterType="Long" resultMap="MedicineResult">
-        <include refid="selectMedicineVo"/>
-        where id = #{id}
+        <!--        <include refid="selectMedicineVo"/>-->
+        <!--        where id = #{id}-->
+        SELECT
+        m.id AS id,
+        m.number AS number,
+        m.name AS name,
+        m.brand AS brand,
+        mb.batch_id AS batch_id,
+        m.specification_attribute_id AS specification_attribute_id,
+        sa.attribute_key AS attribute_key,
+        sa.attribute_value AS attribute_value,
+        m.expiry_date AS expiry_date,
+        m.manufacturer AS manufacturer,
+        m.unit AS unit,
+        m.count AS count,
+        m.status AS status,
+        se.location AS location
+        FROM
+        Medicine m
+        LEFT JOIN
+        SpecificationAttribute sa ON m.specification_attribute_id = sa.id
+        LEFT JOIN
+        MedicineStorage ms ON m.id = ms.medicine_id
+        LEFT JOIN
+        storageenvironment se ON se.id = ms.storage_env_id
+        LEFT JOIN
+        medicine_batch mb ON m.id = mb.medicine_id
+        WHERE
+        m.id = #{id}
     </select>
 
     <select id="selectMedicineByExpired" resultMap="MedicineResult">
