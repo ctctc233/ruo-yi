@@ -58,4 +58,12 @@ public interface MedicineBatchMapper
      * @return 结果
      */
     public int deleteMedicineBatchByIds(Long[] ids);
+
+    /**
+     * 批量删除药品-批次-关联表根据药品id
+     *
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteMedicineBatchByMedIds(Long[] ids);
 }

@@ -211,7 +211,7 @@ CREATE TABLE `medicine` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +220,7 @@ CREATE TABLE `medicine` (
 
 LOCK TABLES `medicine` WRITE;
 /*!40000 ALTER TABLE `medicine` DISABLE KEYS */;
-INSERT INTO `medicine` VALUES (8,'感冒灵',1001,'白云山',3,'2025-01-26','2026-01-26','白云山制药厂','盒',100,0,'2025-01-26 05:45:02','2025-01-26 05:45:02'),(9,'测试药品',1004,'ccc',6,'2025-02-04','2025-02-27','ccc','ccc',10,0,'2025-02-06 16:53:52','2025-02-06 16:53:52'),(10,'测试药品2',1005,'ccccc',7,'2025-02-11','2025-02-28','cccccc','cccccc',10,0,'2025-02-06 17:00:54','2025-02-06 17:00:54');
+INSERT INTO `medicine` VALUES (8,'感冒灵',1001,'白云山',3,'2025-01-26','2026-01-26','白云山制药厂','盒',100,0,'2025-01-26 05:45:02','2025-01-26 05:45:02'),(9,'测试药品',1004,'ccc',6,'2025-02-04','2025-02-27','ccc','ccc',10,0,'2025-02-06 16:53:52','2025-02-06 16:53:52'),(10,'测试药品2',1005,'ccccc',7,'2025-02-11','2025-02-28','cccccc','cccccc',10,0,'2025-02-06 17:00:54','2025-02-06 17:00:54'),(11,'测试药品',1004,'ccc',NULL,NULL,NULL,'ccc','ccc',20,0,'2025-02-07 09:45:22','2025-02-07 09:45:22');
 /*!40000 ALTER TABLE `medicine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -935,7 +935,7 @@ CREATE TABLE `sys_logininfor` (
   PRIMARY KEY (`info_id`),
   KEY `idx_sys_logininfor_s` (`status`),
   KEY `idx_sys_logininfor_lt` (`login_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统访问记录';
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统访问记录';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -944,7 +944,7 @@ CREATE TABLE `sys_logininfor` (
 
 LOCK TABLES `sys_logininfor` WRITE;
 /*!40000 ALTER TABLE `sys_logininfor` DISABLE KEYS */;
-INSERT INTO `sys_logininfor` VALUES (100,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 17:29:46'),(101,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 17:51:21'),(102,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','1','验证码错误','2025-01-23 19:53:56'),(103,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 19:53:59'),(104,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 19:58:48'),(105,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 21:15:36'),(106,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-24 00:01:47'),(107,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-24 01:12:34'),(108,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-24 13:19:26'),(109,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-24 13:21:46'),(110,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-25 02:47:29'),(111,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-26 12:30:31'),(112,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-30 14:43:26'),(113,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-30 16:54:07'),(114,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-02 16:26:12'),(115,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-02 17:34:18'),(116,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 17:24:49'),(117,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','1','验证码错误','2025-02-04 18:24:57'),(118,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 18:25:01'),(119,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 18:58:18'),(120,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 20:27:38'),(121,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 21:46:19'),(122,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-06 23:59:46'),(123,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','退出成功','2025-02-07 00:43:23'),(124,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','退出成功','2025-02-07 00:43:23');
+INSERT INTO `sys_logininfor` VALUES (100,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 17:29:46'),(101,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 17:51:21'),(102,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','1','验证码错误','2025-01-23 19:53:56'),(103,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 19:53:59'),(104,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 19:58:48'),(105,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-23 21:15:36'),(106,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-24 00:01:47'),(107,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-24 01:12:34'),(108,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-24 13:19:26'),(109,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-24 13:21:46'),(110,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-25 02:47:29'),(111,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-26 12:30:31'),(112,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-30 14:43:26'),(113,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-01-30 16:54:07'),(114,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-02 16:26:12'),(115,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-02 17:34:18'),(116,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 17:24:49'),(117,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','1','验证码错误','2025-02-04 18:24:57'),(118,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 18:25:01'),(119,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 18:58:18'),(120,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 20:27:38'),(121,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-04 21:46:19'),(122,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-06 23:59:46'),(123,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','退出成功','2025-02-07 00:43:23'),(124,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','退出成功','2025-02-07 00:43:23'),(125,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','1','验证码错误','2025-02-07 17:15:29'),(126,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','1','验证码错误','2025-02-07 17:15:33'),(127,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','1','验证码错误','2025-02-07 17:15:34'),(128,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-07 17:15:37'),(129,'admin','127.0.0.1','内网IP','Chrome 13','Windows 10','0','登录成功','2025-02-07 17:47:02');
 /*!40000 ALTER TABLE `sys_logininfor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1217,7 +1217,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES (1,103,'admin','若依','00','ry@163.com','15888888888','1','','$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2','0','0','127.0.0.1','2025-02-06 23:59:46','admin','2025-01-23 17:28:19','','2025-02-06 23:59:45','管理员'),(2,105,'ry','若依','00','ry@qq.com','15666666666','1','','$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2','0','0','127.0.0.1','2025-01-23 17:28:19','admin','2025-01-23 17:28:19','',NULL,'测试员'),(100,100,'ccc123','ccc','00','31092220582@qq.com','18983932406','0','','$2a$10$S.h/nCJsZR2e3QzFpAd6m.unHofLvZb6GGPiNsSNR8zpSPH9J4jG.','0','0','',NULL,'admin','2025-01-23 20:05:48','',NULL,NULL),(101,100,'ccc1','cccc','00','31092220512@qq.com','18983932407','1','','$2a$10$/jY2iTZt1TcxhLRD0lIf1.h8PsKQH0MFNYma5URnpxjMia27s8mki','0','0','',NULL,'admin','2025-01-23 20:06:53','',NULL,NULL),(102,102,'ccc2','ccc2','00','31092220513@qq.com','18983932408','0','','$2a$10$HsraVxGn/V8oVMl8P2d.nOXflGS.DohMnmztpsB9W.nV1Z3OVuTNu','0','0','',NULL,'admin','2025-01-23 20:07:40','',NULL,NULL);
+INSERT INTO `sys_user` VALUES (1,103,'admin','若依','00','ry@163.com','15888888888','1','','$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2','0','0','127.0.0.1','2025-02-07 17:47:02','admin','2025-01-23 17:28:19','','2025-02-07 17:47:02','管理员'),(2,105,'ry','若依','00','ry@qq.com','15666666666','1','','$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2','0','0','127.0.0.1','2025-01-23 17:28:19','admin','2025-01-23 17:28:19','',NULL,'测试员'),(100,100,'ccc123','ccc','00','31092220582@qq.com','18983932406','0','','$2a$10$S.h/nCJsZR2e3QzFpAd6m.unHofLvZb6GGPiNsSNR8zpSPH9J4jG.','0','0','',NULL,'admin','2025-01-23 20:05:48','',NULL,NULL),(101,100,'ccc1','cccc','00','31092220512@qq.com','18983932407','1','','$2a$10$/jY2iTZt1TcxhLRD0lIf1.h8PsKQH0MFNYma5URnpxjMia27s8mki','0','0','',NULL,'admin','2025-01-23 20:06:53','',NULL,NULL),(102,102,'ccc2','ccc2','00','31092220513@qq.com','18983932408','0','','$2a$10$HsraVxGn/V8oVMl8P2d.nOXflGS.DohMnmztpsB9W.nV1Z3OVuTNu','0','0','',NULL,'admin','2025-01-23 20:07:40','',NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1339,4 +1339,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-07  1:06:09
+-- Dump completed on 2025-02-07 18:21:40

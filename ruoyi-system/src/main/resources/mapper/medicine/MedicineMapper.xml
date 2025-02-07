@@ -15,10 +15,11 @@
         <result property="manufacturer" column="manufacturer"/>
         <result property="unit" column="unit"/>
         <result property="count" column="count"/>
+        <result property="total" column="total"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <result property="batchNumber" column="batch_id"/>
+        <result property="batchNumber" column="batch_number"/>
         <result property="specificationAttributekey" column="attribute_key"/>
         <result property="specificationAttributename" column="attribute_value"/>
         <result property="location" column="location"/>
@@ -61,7 +62,7 @@
         m.number AS number,
         m.name AS name,
         m.brand AS brand,
-        mb.batch_id AS batch_id,
+        b.batch_number AS batch_number,
         m.specification_attribute_id AS specification_attribute_id,
         sa.attribute_key AS attribute_key,
         sa.attribute_value AS attribute_value,
@@ -81,6 +82,8 @@
         storageenvironment se ON se.id = ms.storage_env_id
         LEFT JOIN
         medicine_batch mb ON m.id = mb.medicine_id
+        LEFT JOIN
+        batch b ON mb.batch_id = b.id
     </select>
 
     <select id="selectMedicineById" parameterType="Long" resultMap="MedicineResult">
@@ -120,6 +123,34 @@
         <where>
             expiry_date &lt; now()
         </where>
+    </select>
+
+    <select id="selectMedicineDetail" parameterType="Long" resultMap="MedicineResult">
+        SELECT m.id                         AS id,
+               m.number                     AS number,
+               m.name                       AS name,
+               m.brand                      AS brand,
+               mb.batch_id                  AS batch_id,
+               m.specification_attribute_id AS specification_attribute_id,
+               sa.attribute_key             AS attribute_key,
+               sa.attribute_value           AS attribute_value,
+               m.expiry_date                AS expiry_date,
+               m.manufacturer               AS manufacturer,
+               m.unit                       AS unit,
+               m.count                      AS count,
+               m.status                     AS status,
+               se.location                  AS location
+        FROM Medicine m
+                 LEFT JOIN
+             SpecificationAttribute sa ON m.specification_attribute_id = sa.id
+                 LEFT JOIN
+             MedicineStorage ms ON m.id = ms.medicine_id
+                 LEFT JOIN
+             storageenvironment se ON se.id = ms.storage_env_id
+                 LEFT JOIN
+             medicine_batch mb ON m.id = mb.medicine_id
+        WHERE m.number = #{number}
+        GROUP BY m.id
     </select>
 
     <insert id="insertMedicine" parameterType="Medicine" useGeneratedKeys="true" keyProperty="id">

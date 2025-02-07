@@ -75,12 +75,16 @@ public class MedicinePro extends BaseEntity {
 	private Long count;
 
 	/**
+	 * 总量
+	 */
+	private Long total;
+
+	/**
 	 * 0：正常；1：停用
 	 */
 	private Long status;
 
-
-	public MedicinePro(Long id, String batchNumber, String location, String name, Long number, String brand, Long specificationAttributeId, String specificationAttributekey, String specificationAttributename, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long status) {
+	public MedicinePro(Long id, String batchNumber, String location, String name, Long number, String brand, Long specificationAttributeId, String specificationAttributekey, String specificationAttributename, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long total, Long status) {
 		this.id = id;
 		this.batchNumber = batchNumber;
 		this.location = location;
@@ -95,6 +99,7 @@ public class MedicinePro extends BaseEntity {
 		this.manufacturer = manufacturer;
 		this.unit = unit;
 		this.count = count;
+		this.total = total;
 		this.status = status;
 	}
 
@@ -213,6 +218,14 @@ public class MedicinePro extends BaseEntity {
 		this.count = count;
 	}
 
+	public Long getTotal() {
+		return total;
+	}
+
+	public void setTotal(Long total) {
+		this.total = total;
+	}
+
 	public Long getStatus() {
 		return status;
 	}
@@ -239,6 +252,7 @@ public class MedicinePro extends BaseEntity {
 				.append("unit", getUnit())
 				.append("count", getCount())
 				.append("status", getStatus())
+				.append("total", getTotal())
 				.append("createTime", getCreateTime())
 				.append("updateTime", getUpdateTime())
 				.toString();

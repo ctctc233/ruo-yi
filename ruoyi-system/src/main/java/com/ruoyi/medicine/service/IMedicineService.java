@@ -66,4 +66,11 @@ public interface IMedicineService
      * @return 结果
      */
     public List<Medicine> selectExpiredMedicine();
+
+    /**
+     * 查询药品详情
+     *
+     * @return 结果
+     */
+    public List<MedicinePro> selectMedicineDetail(Long number);
 }

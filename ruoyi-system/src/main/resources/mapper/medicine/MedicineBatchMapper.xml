@@ -66,4 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <delete id="deleteMedicineBatchByMedIds">
+        delete from medicine_batch where medicine_id in
+        <foreach item="medId" collection="array" open="(" separator="," close=")">
+            #{medId}
+        </foreach>
+    </delete>
 </mapper>

@@ -150,8 +150,10 @@ public class MedicineServiceImpl implements IMedicineService {
 	@Override
 	public int deleteMedicineByIds(Long[] ids) {
 		medicinestorageMapper.deleteMedicinestorageByMedIds(ids);
+		medicineBatchMapper.deleteMedicineBatchByMedIds(ids);
 		// 删除规格，具体实现待定（这里传参是错误的）
 		//specificationattributeMapper.deleteSpecificationattributeByIds(ids);
+
 		medicineMapper.deleteMedicineByIds(ids);
 		return 1;
 	}
@@ -178,4 +180,15 @@ public class MedicineServiceImpl implements IMedicineService {
 	public List<Medicine> selectExpiredMedicine() {
 		return medicineMapper.selectMedicineByExpired();
 	}
+
+	/**
+	 * 查询药品详情
+	 *
+	 * @return 结果
+	 */
+	@Override
+	public List<MedicinePro> selectMedicineDetail(Long number) {
+		return medicineMapper.selectMedicineDetail(number);
+	}
+
 }

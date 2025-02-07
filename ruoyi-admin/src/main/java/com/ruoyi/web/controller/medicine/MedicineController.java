@@ -123,4 +123,13 @@ public class MedicineController extends BaseController {
 	public AjaxResult queryExpiredMedicine() {
 		return success(medicineService.selectExpiredMedicine());
 	}
+
+	/**
+	 * 查询药品详情
+	 */
+	@PreAuthorize("@ss.hasPermi('medicine:medicine:detail')")
+	@GetMapping(value = "/detail/{number}")
+	public AjaxResult detail(Long number) {
+		return success(medicineService.selectMedicineDetail(number));
+	}
 }

@@ -71,4 +71,11 @@ public interface MedicineMapper
      * @return 结果
      */
     public List<Medicine> selectMedicineByExpired();
+
+    /**
+     * 统计药品详情
+     *
+     * @return 结果
+     */
+    public List<MedicinePro> selectMedicineDetail(Long number);
 }
