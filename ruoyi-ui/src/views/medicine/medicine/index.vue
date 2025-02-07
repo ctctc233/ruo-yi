@@ -128,7 +128,7 @@
           >导出</el-button
         >
       </el-col> -->
-      
+
       <right-toolbar
         :showSearch.sync="showSearch"
         @queryTable="getList"
@@ -140,15 +140,23 @@
       :data="medicineList"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column type="selection" width="40" align="center" />
       <el-table-column label="药品编号" align="center" prop="number" />
       <!-- <el-table-column label="药品id" align="center" prop="id" /> -->
       <el-table-column label="药品名称" align="center" prop="name" />
 
       <el-table-column label="药品品牌" align="center" prop="brand" />
       <!-- 修改规格列 -->
-      <el-table-column label="规格类型" align="center" prop="specificationAttributekey"/>
-      <el-table-column label="规格值" align="center" prop="specificationAttributename"/>
+      <el-table-column
+        label="规格类型"
+        align="center"
+        prop="specificationAttributekey"
+      />
+      <el-table-column
+        label="规格值"
+        align="center"
+        prop="specificationAttributename"
+      />
       <el-table-column
         label="过期时间"
         align="center"
@@ -173,30 +181,39 @@
         </template>
       </el-table-column>
       <!--存放位置-->
-      <el-table-column label="存放位置" align="center" prop="location" />
+      <!-- <el-table-column label="存放位置" align="center" prop="location" /> -->
 
       <el-table-column
         label="操作"
         align="center"
-        class-name="small-padding fixed-width"
+        style="width:150px"
       >
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['medicine:medicine:edit']"
-            >修改</el-button
-          >
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['medicine:medicine:remove']"
-            >删除</el-button
-          >
+          <div style="display: flex; gap: 0px; justify-content: center">
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+              @click="handleDetails(scope.row)"
+              >详情</el-button
+            >
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+              @click="handleUpdate(scope.row)"
+              v-hasPermi="['medicine:medicine:edit']"
+              >修改</el-button
+            >
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-delete"
+              @click="handleDelete(scope.row)"
+              v-hasPermi="['medicine:medicine:remove']"
+              >删除</el-button
+            >
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -292,6 +309,38 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="药品详情"
+      :visible.sync="openDetails"
+      width="500px"
+      append-to-body
+      @close="handleClose">
+      <el-form :model="form" label-width="100px">
+        <el-form-item label="药品名称：">{{ form.name }}</el-form-item>
+        <!-- <el-form-item label="药品编号">{{ form.number }}</el-form-item> -->
+        <el-form-item label="药品品牌：">{{ form.brand }}</el-form-item>
+        <!-- <el-form-item label="规格健">{{ form.specificationAttributekey }}</el-form-item>
+        <el-form-item label="规格值">{{ form.specificationAttributename }}</el-form-item> -->
+        <el-form-item label="药品批次：">{{ form.batchNumber }}</el-form-item>
+        <el-form-item label="生产时间：">
+          {{ parseTime(form.productionDate, "{y}-{m}-{d}") }}
+        </el-form-item>
+        <el-form-item label="过期时间：">
+          {{ parseTime(form.expiryDate, "{y}-{m}-{d}") }}
+        </el-form-item>
+        <el-form-item label="生产厂商：">{{ form.manufacturer }}</el-form-item>
+        <!-- <el-form-item label="单位">{{ form.unit }}</el-form-item> -->
+        <el-form-item label="药品数量：">{{ form.count }}</el-form-item>
+        <el-form-item label="存放环境：">{{ form.location }}</el-form-item>
+        <el-form-item label="药品状态：">
+          <dict-tag
+            :options="dict.type.medicine_status"
+            :value="form.status"
+          />
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -338,6 +387,7 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      openDetails: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -369,10 +419,18 @@ export default {
         name: [{ required: true, message: "名字不能为空", trigger: "blur" }],
         number: [{ required: true, message: "编号不能为空", trigger: "blur" }],
         count: [{ required: true, message: "数量不能为空", trigger: "blur" }],
-        location: [{ required: true, message: "存放环境不能为空", trigger: "blur" }],
-        specificationAttributekey: [{ required: true, message: "规格类型不能为空", trigger: "blur" }],
-        specificationAttributename: [{ required: true, message: "规格名称不能为空", trigger: "blur" }],
-        batchNumber: [{ required: true, message: "批次编号不能为空", trigger: "blur" }],
+        location: [
+          { required: true, message: "存放环境不能为空", trigger: "blur" },
+        ],
+        specificationAttributekey: [
+          { required: true, message: "规格类型不能为空", trigger: "blur" },
+        ],
+        specificationAttributename: [
+          { required: true, message: "规格名称不能为空", trigger: "blur" },
+        ],
+        batchNumber: [
+          { required: true, message: "批次编号不能为空", trigger: "blur" },
+        ],
         status: [
           {
             required: true,
@@ -387,13 +445,12 @@ export default {
           { required: true, message: "修改时间不能为空", trigger: "blur" },
         ],
       },
-      MedicineType:{},
+      MedicineType: {},
     };
   },
   created() {
     this.getList();
     this.getBranchList();
-    this.getMedicineType();
   },
   methods: {
     getSpecificationName(specificationAttributeId) {
@@ -405,14 +462,6 @@ export default {
         : "未知规格";
     },
 
-    // getMedicineType() { 
-    //   MedicineType().then((response) => {
-    //     console.log(response);
-    //     this.form= response;
-    //     // this.MedicineType = response;
-    //     // console.log(this.MedicineType);
-    //   });
-    //  },
     /** 查询药品列表 */
     getList() {
       this.loading = true;
@@ -482,7 +531,7 @@ export default {
       this.open = true;
       this.title = "添加药品";
     },
-/*** 出库管理*/
+    /*** 出库管理*/
     handReduce() {
       this.reset();
       this.open = true;
@@ -497,6 +546,18 @@ export default {
         this.open = true;
         this.title = "修改药品";
       });
+    },
+    /** 详情按钮操作 */
+    handleDetails(row) {
+      this.reset();
+      const id = row.id || this.ids;
+      getMedicine(id).then((response) => {
+        this.form = response.data;
+        this.openDetails = true;
+      });
+    },
+    handleClose() {
+      this.openDetails = false;
     },
     /** 提交按钮 */
     submitForm() {
