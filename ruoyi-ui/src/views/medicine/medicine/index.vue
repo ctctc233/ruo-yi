@@ -290,8 +290,19 @@
         <el-form-item label="数量" prop="count">
           <el-input v-model="form.count" placeholder="请输入数量" />
         </el-form-item>
-        <el-form-item label="存放环境" prop="location">
+        <!-- <el-form-item label="存放环境" prop="location">
           <el-input v-model="form.location" placeholder="请输入存放环境" />
+        </el-form-item> -->
+        <el-form-item label="存放环境" prop="location">
+          <el-select v-model="form.location" placeholder="请选择批次编号">
+            <el-option
+              v-for="item in locationList"
+              :key="item.id"
+              :label="item.location"
+              :value="item.location"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
@@ -361,6 +372,7 @@ import {
   addBatch,
   updateBatch,
 } from "@/api/medicine/batch";
+import {listStorageenvironment} from "@/api/medicine/storageenvironment";
 
 export default {
   name: "Medicine",
@@ -383,6 +395,8 @@ export default {
       medicineList: [],
       //批次表数据
       batchList: [],
+      //存放环境表数据
+      locationList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -451,6 +465,7 @@ export default {
   created() {
     this.getList();
     this.getBranchList();
+    this.getlocationList();
   },
   methods: {
     getSpecificationName(specificationAttributeId) {
@@ -482,6 +497,15 @@ export default {
         // this.batchList = response.rows;
         // this.total = response.total;
         // this.loading = false;
+      });
+    },
+    /** 查询环境列表 */
+    getlocationList(){
+      this.loading = true;
+      listStorageenvironment().then((response) => {
+        this.locationList = response.rows;
+        this.total = response.total;
+        this.loading = false;
       });
     },
     // 取消按钮
