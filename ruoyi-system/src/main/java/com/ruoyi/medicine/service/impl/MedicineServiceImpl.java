@@ -1,5 +1,11 @@
 package com.ruoyi.medicine.service.impl;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.ruoyi.common.utils.DateUtils;
@@ -52,6 +58,47 @@ public class MedicineServiceImpl implements IMedicineService {
 	@Override
 	public List<MedicinePro> selectMedicineList(MedicinePro medicine) {
 		return medicineMapper.selectMedicineList(medicine);
+	}
+
+	/**
+	 * 查询/处理药品临期列表
+	 *
+	 * @param medicine 药品
+	 * @return 药品
+	 */
+	@Override
+	public List<MedicineExpirationApproaching> selectNearExpirationMedicineslist(MedicinePro medicine) {
+		List<MedicinePro> medicinePros = medicineMapper.selectMedicineList(medicine);
+		for (MedicinePro medicinePro : medicinePros) {
+			System.out.println(medicinePro);
+		}
+		List<MedicineExpirationApproaching> medicineExpirationApproachings = new ArrayList<>();
+		for (MedicinePro medicinePro : medicinePros) {
+			MedicineExpirationApproaching medicineExpirationApproaching = new MedicineExpirationApproaching();
+			medicineExpirationApproaching.setMedicineId(medicinePro.getId());
+			medicineExpirationApproaching.setMedicineName(medicinePro.getName());
+			medicineExpirationApproaching.setBatchNumber(medicinePro.getBatchNumber());
+			medicineExpirationApproaching.setProductionDate(medicinePro.getProductionDate());
+			medicineExpirationApproaching.setExpirationDate(medicinePro.getExpiryDate());
+			/* 默认90天临期天数 */
+			medicineExpirationApproaching.setExpirationThresholdDays(90);
+
+			LocalDate currentDate = LocalDate.now();
+			try {
+				LocalDate date = medicineExpirationApproaching.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				System.out.println(medicineExpirationApproaching.getExpirationDate());
+				long days = ChronoUnit.DAYS.between(currentDate, date);
+				System.out.println("还剩多少天: " + days);
+				medicineExpirationApproaching.setDays(days);
+				medicineExpirationApproaching.setApproachingExpiration(days <= medicineExpirationApproaching.getExpirationThresholdDays());
+			} catch (Exception e) {
+				medicineExpirationApproaching.setApproachingExpiration(null);
+				medicineExpirationApproaching.setDays(0);
+			}
+
+			medicineExpirationApproachings.add(medicineExpirationApproaching);
+		}
+		return medicineExpirationApproachings;
 	}
 
 	/**

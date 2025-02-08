@@ -2,6 +2,7 @@ package com.ruoyi.medicine.service;
 
 import java.util.List;
 import com.ruoyi.medicine.domain.Medicine;
+import com.ruoyi.medicine.domain.MedicineExpirationApproaching;
 import com.ruoyi.medicine.domain.MedicinePro;
 
 /**
@@ -27,6 +28,14 @@ public interface IMedicineService
      * @return 药品集合
      */
     public List<MedicinePro> selectMedicineList(MedicinePro medicine);
+
+    /**
+     * 查询/处理药品临期列表
+     *
+     * @param medicine 药品
+     * @return 药品集合
+     */
+    public List<MedicineExpirationApproaching> selectNearExpirationMedicineslist(MedicinePro medicine);
 
     /**
      * 新增药品

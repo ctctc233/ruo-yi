@@ -66,6 +66,7 @@
         m.specification_attribute_id AS specification_attribute_id,
         sa.attribute_key AS attribute_key,
         sa.attribute_value AS attribute_value,
+        m.production_date as production_date,
         m.expiry_date AS expiry_date,
         m.manufacturer AS manufacturer,
         m.unit AS unit,

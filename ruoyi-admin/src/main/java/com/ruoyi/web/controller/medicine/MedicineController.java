@@ -7,6 +7,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.medicine.domain.Medicine;
+import com.ruoyi.medicine.domain.MedicineExpirationApproaching;
 import com.ruoyi.medicine.domain.MedicinePro;
 import com.ruoyi.medicine.service.IMedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,5 +132,19 @@ public class MedicineController extends BaseController {
 	@GetMapping(value = "/detail/{number}")
 	public AjaxResult detail(Long number) {
 		return success(medicineService.selectMedicineDetail(number));
+	}
+
+	/**
+	 * 查询药品临期列表
+	 */
+	@PreAuthorize("@ss.hasPermi('medicine:medicine:listNearExpirationMedicines')")
+	@GetMapping("/listNearExpirationMedicines")
+	public TableDataInfo listNearExpirationMedicines(MedicinePro medicine) {
+		startPage();
+		List<MedicineExpirationApproaching> list = medicineService.selectNearExpirationMedicineslist(medicine);
+//		for (MedicineExpirationApproaching medicineExpirationApproaching : list) {
+//			System.out.println(medicineExpirationApproaching);
+//		}
+		return getDataTable(list);
 	}
 }
