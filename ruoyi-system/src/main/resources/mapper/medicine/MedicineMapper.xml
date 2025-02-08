@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.medicine.mapper.MedicineMapper">
 
-    <resultMap type="MedicinePro" id="MedicineResult">
+    <resultMap type="com.ruoyi.medicine.domain.MedicinePro" id="MedicineResult">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="number" column="number"/>
@@ -43,7 +43,7 @@
     </sql>
 
 
-    <select id="selectMedicineList" parameterType="Medicine" resultMap="MedicineResult">
+    <select id="selectMedicineList" parameterType="com.ruoyi.medicine.domain.MedicinePro" resultMap="MedicineResult">
         <!--        <include refid="selectMedicineVo"/>-->
         <!--        <where>  -->
         <!--            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>-->
@@ -74,17 +74,32 @@
         m.status AS status,
         se.location AS location
         FROM
-        Medicine m
+        medicine m
         LEFT JOIN
-        SpecificationAttribute sa ON m.specification_attribute_id = sa.id
+        specificationattribute sa ON m.specification_attribute_id = sa.id
         LEFT JOIN
-        MedicineStorage ms ON m.id = ms.medicine_id
+        medicinestorage ms ON m.id = ms.medicine_id
         LEFT JOIN
         storageenvironment se ON se.id = ms.storage_env_id
         LEFT JOIN
         medicine_batch mb ON m.id = mb.medicine_id
         LEFT JOIN
         batch b ON mb.batch_id = b.id
+        <where>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="number != null ">and number = #{number}</if>
+            <if test="brand != null  and brand != ''">and brand = #{brand}</if>
+            <if test="specificationAttributeId != null ">and specification_attribute_id = #{specificationAttributeId}
+            </if>
+            <if test="productionDate != null ">and production_date = #{productionDate}</if>
+            <if test="expiryDate != null ">and expiry_date = #{expiryDate}</if>
+            <if test="manufacturer != null  and manufacturer != ''">and manufacturer = #{manufacturer}</if>
+            <if test="unit != null  and unit != ''">and unit = #{unit}</if>
+            <if test="count != null ">and count = #{count}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="batchNumber != null ">and b.batch_number = #{batchNumber}</if>
+            <if test="location != null ">and se.location = #{location}</if>
+        </where>
     </select>
 
     <select id="selectMedicineById" parameterType="Long" resultMap="MedicineResult">
@@ -99,6 +114,7 @@
         m.specification_attribute_id AS specification_attribute_id,
         sa.attribute_key AS attribute_key,
         sa.attribute_value AS attribute_value,
+        m.production_date as production_date,
         m.expiry_date AS expiry_date,
         m.manufacturer AS manufacturer,
         m.unit AS unit,
@@ -106,11 +122,11 @@
         m.status AS status,
         se.location AS location
         FROM
-        Medicine m
+        medicine m
         LEFT JOIN
-        SpecificationAttribute sa ON m.specification_attribute_id = sa.id
+        specificationattribute sa ON m.specification_attribute_id = sa.id
         LEFT JOIN
-        MedicineStorage ms ON m.id = ms.medicine_id
+        medicinestorage ms ON m.id = ms.medicine_id
         LEFT JOIN
         storageenvironment se ON se.id = ms.storage_env_id
         LEFT JOIN
@@ -143,11 +159,11 @@
                m.count                      AS count,
                m.status                     AS status,
                se.location                  AS location
-        FROM Medicine m
+        FROM medicine m
                  LEFT JOIN
-             SpecificationAttribute sa ON m.specification_attribute_id = sa.id
+             specificationattribute sa ON m.specification_attribute_id = sa.id
                  LEFT JOIN
-             MedicineStorage ms ON m.id = ms.medicine_id
+             medicinestorage ms ON m.id = ms.medicine_id
                  LEFT JOIN
              storageenvironment se ON se.id = ms.storage_env_id
                  LEFT JOIN
@@ -156,6 +172,35 @@
              batch b ON mb.batch_id = b.id
         WHERE m.number = #{number}
         GROUP BY m.id
+    </select>
+    <select id="outMedicineDetail" resultMap="MedicineResult">
+        SELECT m.id                         AS id,
+               m.number                     AS number,
+               m.name                       AS name,
+               m.brand                      AS brand,
+               b.batch_number               AS batch_number,
+               m.specification_attribute_id AS specification_attribute_id,
+               sa.attribute_key             AS attribute_key,
+               sa.attribute_value           AS attribute_value,
+               m.expiry_date                AS expiry_date,
+               m.manufacturer               AS manufacturer,
+               m.unit                       AS unit,
+               m.count                      AS count,
+               m.status                     AS status,
+               se.location                  AS location
+        FROM medicine m
+                 LEFT JOIN
+             specificationattribute sa ON m.specification_attribute_id = sa.id
+                 LEFT JOIN
+             medicinestorage ms ON m.id = ms.medicine_id
+                 LEFT JOIN
+             storageenvironment se ON se.id = ms.storage_env_id
+                 LEFT JOIN
+             medicine_batch mb ON m.id = mb.medicine_id
+                 LEFT JOIN
+             batch b ON mb.batch_id = b.id
+        WHERE m.name like concat('%', #{name}, '%')
+          and se.location = #{location}
     </select>
 
     <insert id="insertMedicine" parameterType="Medicine" useGeneratedKeys="true" keyProperty="id">
@@ -207,6 +252,17 @@
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
         where id = #{id}
+    </update>
+
+    <update id="outMedicine">
+        update medicine m
+        set m.count = m.count - #{count}
+        where m.name like concat('%', #{name}, '%')
+          and exists (select 1
+                      from medicinestorage ms
+                               join storageenvironment se on se.id = ms.storage_env_id
+                      where ms.medicine_id = m.id
+                        and se.location = #{location})
     </update>
 
     <delete id="deleteMedicineById" parameterType="Long">

@@ -189,6 +189,26 @@ public class MedicineServiceImpl implements IMedicineService {
 	}
 
 	/**
+	 * 药品出库
+	 *
+	 * @return 结果
+	 */
+	@Override
+	public int outMedicine(String name, Long outNum, String location) {
+		return medicineMapper.outMedicine(name, outNum, location);
+	}
+
+	/**
+	 * 药品出库查询
+	 *
+	 * @return 结果
+	 */
+	@Override
+	public int outMedicineDetail(String name, Long outNum, String location) {
+		return medicineMapper.outMedicineDetail(name, outNum, location);
+	}
+
+	/**
 	 * 批量删除药品
 	 *
 	 * @param ids 需要删除的药品主键
@@ -237,5 +257,4 @@ public class MedicineServiceImpl implements IMedicineService {
 	public List<MedicinePro> selectMedicineDetail(Long number) {
 		return medicineMapper.selectMedicineDetail(number);
 	}
-
 }

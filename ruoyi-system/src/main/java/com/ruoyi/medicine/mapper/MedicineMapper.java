@@ -25,6 +25,7 @@ public interface MedicineMapper
     * */
 
 //    public Medicine selectAllMedicines();
+
     /**
      * 查询药品列表
      * 
@@ -48,6 +49,22 @@ public interface MedicineMapper
      * @return 结果
      */
     public int updateMedicine(Medicine medicine);
+
+    /**
+     * 药品出库
+     *
+     * @param name 药品主键\出库数量\库位
+     * @return 结果
+     */
+    public int outMedicine(String name, Long outNum, String location);
+
+    /**
+     * 药品出库
+     *
+     * @param name 药品主键\出库数量\库位
+     * @return 结果
+     */
+    public int outMedicineDetail(String name, Long outNum, String location);
 
     /**
      * 删除药品

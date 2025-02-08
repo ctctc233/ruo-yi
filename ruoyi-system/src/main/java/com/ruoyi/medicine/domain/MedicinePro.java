@@ -84,6 +84,8 @@ public class MedicinePro extends BaseEntity {
 	 */
 	private Long status;
 
+
+
 	public MedicinePro(Long id, String batchNumber, String location, String name, Long number, String brand, Long specificationAttributeId, String specificationAttributekey, String specificationAttributename, Date productionDate, Date expiryDate, String manufacturer, String unit, Long count, Long total, Long status) {
 		this.id = id;
 		this.batchNumber = batchNumber;

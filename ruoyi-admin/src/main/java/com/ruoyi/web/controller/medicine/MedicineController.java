@@ -10,6 +10,7 @@ import com.ruoyi.medicine.domain.Medicine;
 import com.ruoyi.medicine.domain.MedicineExpirationApproaching;
 import com.ruoyi.medicine.domain.MedicinePro;
 import com.ruoyi.medicine.service.IMedicineService;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -107,6 +108,25 @@ public class MedicineController extends BaseController {
 	}
 
 	/**
+	 * 药品出库
+	 */
+	@PreAuthorize("@ss.hasPermi('medicine:medicine:out')")
+	@Log(title = "药品", businessType = BusinessType.UPDATE)
+	@PutMapping("/outMedicine")
+	public AjaxResult outMedicine(@RequestParam("name") String name, @RequestParam("count") Long count, @RequestParam("location") String location) {
+		return toAjax(medicineService.outMedicine(name, count, location));
+	}
+
+	/**
+	 * 药品出库查询
+	 */
+	@PreAuthorize("@ss.hasPermi('medicine:medicine:outDetail')")
+	@GetMapping("/outMedicineDetail")
+	public AjaxResult outMedicineDetail(@RequestParam("name") String name, @RequestParam("count") Long count, @RequestParam("location") String location) {
+		return toAjax(medicineService.outMedicineDetail(name, count, location));
+	}
+
+	/**
 	 * 删除药品
 	 */
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:remove')")
@@ -128,11 +148,11 @@ public class MedicineController extends BaseController {
 	/**
 	 * 查询药品详情
 	 */
-	@PreAuthorize("@ss.hasPermi('medicine:medicine:detail')")
-	@GetMapping(value = "/detail/{number}")
-	public AjaxResult detail(Long number) {
-		return success(medicineService.selectMedicineDetail(number));
-	}
+//	@PreAuthorize("@ss.hasPermi('medicine:medicine:detail')")
+//	@GetMapping(value = "/detail/{number}")
+//	public AjaxResult detail(Long number) {
+//		return success(medicineService.selectMedicineDetail(number));
+//	}
 
 	/**
 	 * 查询药品临期列表

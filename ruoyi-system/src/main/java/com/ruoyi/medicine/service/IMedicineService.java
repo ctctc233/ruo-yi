@@ -54,6 +54,22 @@ public interface IMedicineService
     public int updateMedicine(MedicinePro medicinePro);
 
     /**
+     * 药品出库
+     *
+     * @param name 需要出库的药品名、主键、地点
+     * @return 结果
+     */
+    public int outMedicine(String name, Long outNum, String location);
+
+    /**
+     * 药品出库查询
+     *
+     * @param name 需要出库的药品名、主键、地点
+     * @return 结果
+     */
+    public int outMedicineDetail(String name, Long outNum, String location);
+
+    /**
      * 批量删除药品
      * 
      * @param ids 需要删除的药品主键集合
