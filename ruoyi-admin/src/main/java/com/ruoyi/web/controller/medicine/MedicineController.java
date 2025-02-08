@@ -139,7 +139,8 @@ public class MedicineController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:listNearExpirationMedicines')")
 	@GetMapping("/listNearExpirationMedicines")
-	public TableDataInfo listNearExpirationMedicines(MedicinePro medicine) {
+	public TableDataInfo listNearExpirationMedicines() {
+		MedicinePro medicine = new MedicinePro();
 		startPage();
 		List<MedicineExpirationApproaching> list = medicineService.selectNearExpirationMedicineslist(medicine);
 //		for (MedicineExpirationApproaching medicineExpirationApproaching : list) {
