@@ -356,14 +356,14 @@
     >
       <el-form ref="outMenform" :model="outMenform" label-width="80px">
         <el-form-item label="药品名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名字" />
+          <el-input v-model="outMenform.name" placeholder="请输入名字" />
         </el-form-item>
 
         <el-form-item label="数量" prop="count">
-          <el-input v-model="form.count" placeholder="请输入数量" />
+          <el-input v-model="outMenform.count" placeholder="请输入数量" />
         </el-form-item>
         <el-form-item label="存放环境" prop="location">
-          <el-select v-model="form.location" placeholder="请选择批次编号">
+          <el-select v-model="outMenform.location" placeholder="请选择批次编号">
             <el-option
               v-for="item in locationList"
               :key="item.id"

@@ -55,7 +55,7 @@ export function delMedicine(id) {
 export function outMedicine(data) {
   return request({
     url: '/medicine/medicine/outMedicine',
-    method: 'get',
+    method: 'PUT',
     data: data
   })
 }
