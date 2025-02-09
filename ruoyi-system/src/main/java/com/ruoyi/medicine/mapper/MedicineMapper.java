@@ -3,6 +3,7 @@ package com.ruoyi.medicine.mapper;
 import java.util.List;
 import com.ruoyi.medicine.domain.Medicine;
 import com.ruoyi.medicine.domain.MedicinePro;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 药品Mapper接口
@@ -56,7 +57,8 @@ public interface MedicineMapper
      * @param name 药品主键\出库数量\库位
      * @return 结果
      */
-    public int outMedicine(String name, Long outNum, String location);
+    int outMedicine(@Param("name") String name, @Param("count") Long count, @Param("location") String location);
+
 
     /**
      * 药品出库

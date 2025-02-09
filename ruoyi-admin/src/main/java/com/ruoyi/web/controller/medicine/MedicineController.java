@@ -6,17 +6,14 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.medicine.domain.Medicine;
 import com.ruoyi.medicine.domain.MedicineExpirationApproaching;
 import com.ruoyi.medicine.domain.MedicinePro;
 import com.ruoyi.medicine.service.IMedicineService;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -113,8 +110,8 @@ public class MedicineController extends BaseController {
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:out')")
 	@Log(title = "药品", businessType = BusinessType.UPDATE)
 	@PutMapping("/outMedicine")
-	public AjaxResult outMedicine(@RequestParam("name") String name, @RequestParam("count") Long count, @RequestParam("location") String location) {
-		return toAjax(medicineService.outMedicine(name, count, location));
+	public AjaxResult outMedicine(@RequestBody MedicinePro medicine) {
+		return toAjax(medicineService.outMedicine(medicine.getName(), medicine.getCount(), medicine.getLocation()));
 	}
 
 	/**
@@ -122,8 +119,8 @@ public class MedicineController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:outDetail')")
 	@GetMapping("/outMedicineDetail")
-	public AjaxResult outMedicineDetail(@RequestParam("name") String name, @RequestParam("count") Long count, @RequestParam("location") String location) {
-		return toAjax(medicineService.outMedicineDetail(name, count, location));
+	public AjaxResult outMedicineDetail(@RequestBody MedicinePro medicine) {
+		return toAjax(medicineService.outMedicineDetail(medicine.getName(), medicine.getCount(), medicine.getLocation()));
 	}
 
 	/**

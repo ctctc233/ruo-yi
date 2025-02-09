@@ -194,8 +194,8 @@ public class MedicineServiceImpl implements IMedicineService {
 	 * @return 结果
 	 */
 	@Override
-	public int outMedicine(String name, Long outNum, String location) {
-		return medicineMapper.outMedicine(name, outNum, location);
+	public int outMedicine(String name, Long count, String location) {
+		return medicineMapper.outMedicine(name, count, location);
 	}
 
 	/**
