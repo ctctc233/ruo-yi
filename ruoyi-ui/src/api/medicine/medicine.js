@@ -50,3 +50,12 @@ export function delMedicine(id) {
     method: 'delete'
   })
 }
+
+//出库药品
+export function outMedicine(data) {
+  return request({
+    url: '/medicine/medicine/outMedicine',
+    method: 'get',
+    data: data
+  })
+}

@@ -140,7 +140,7 @@
       :data="medicineList"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="40" align="center" />
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="药品编号" align="center" prop="number" />
       <!-- <el-table-column label="药品id" align="center" prop="id" /> -->
       <el-table-column label="药品名称" align="center" prop="name" />
@@ -168,7 +168,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="厂商" align="center" prop="manufacturer" />
+      <!-- <el-table-column label="厂商" align="center" prop="manufacturer" /> -->
       <el-table-column label="单位" align="center" prop="unit" />
       <el-table-column label="数量" align="center" prop="count" />
 
@@ -183,11 +183,7 @@
       <!--存放位置-->
       <!-- <el-table-column label="存放位置" align="center" prop="location" /> -->
 
-      <el-table-column
-        label="操作"
-        align="center"
-        style="width:150px"
-      >
+      <el-table-column label="操作" align="center" style="width: 150px">
         <template slot-scope="scope">
           <div style="display: flex; gap: 0px; justify-content: center">
             <el-button
@@ -320,13 +316,14 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
+    <!--药品详情弹窗-->
     <el-dialog
       title="药品详情"
       :visible.sync="openDetails"
       width="500px"
       append-to-body
-      @close="handleClose">
+      @close="handleClose"
+    >
       <el-form :model="form" label-width="100px">
         <el-form-item label="药品名称：">{{ form.name }}</el-form-item>
         <!-- <el-form-item label="药品编号">{{ form.number }}</el-form-item> -->
@@ -345,12 +342,42 @@
         <el-form-item label="药品数量：">{{ form.count }}</el-form-item>
         <el-form-item label="存放环境：">{{ form.location }}</el-form-item>
         <el-form-item label="药品状态：">
-          <dict-tag
-            :options="dict.type.medicine_status"
-            :value="form.status"
-          />
+          <dict-tag :options="dict.type.medicine_status" :value="form.status" />
         </el-form-item>
       </el-form>
+    </el-dialog>
+
+    <!--出库弹窗列表-->
+    <el-dialog
+      :title="title"
+      :visible.sync="outMenOpen"
+      width="500px"
+      append-to-body
+    >
+      <el-form ref="outMenform" :model="outMenform" label-width="80px">
+        <el-form-item label="药品名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入名字" />
+        </el-form-item>
+
+        <el-form-item label="数量" prop="count">
+          <el-input v-model="form.count" placeholder="请输入数量" />
+        </el-form-item>
+        <el-form-item label="存放环境" prop="location">
+          <el-select v-model="form.location" placeholder="请选择批次编号">
+            <el-option
+              v-for="item in locationList"
+              :key="item.id"
+              :label="item.location"
+              :value="item.location"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="outMenSub">确 定</el-button>
+        <el-button @click="outMenCancel">取 消</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -363,6 +390,7 @@ import {
   delMedicine,
   addMedicine,
   updateMedicine,
+  outMedicine,
 } from "@/api/medicine/medicine";
 import {
   getListBatch,
@@ -372,7 +400,7 @@ import {
   addBatch,
   updateBatch,
 } from "@/api/medicine/batch";
-import {listStorageenvironment} from "@/api/medicine/storageenvironment";
+import { listStorageenvironment } from "@/api/medicine/storageenvironment";
 
 export default {
   name: "Medicine",
@@ -402,6 +430,7 @@ export default {
       // 是否显示弹出层
       open: false,
       openDetails: false,
+      outMenOpen: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -419,16 +448,11 @@ export default {
         count: null,
         status: null,
       },
+
       // 表单参数
       form: {},
+      outMenform: {},
       // 表单校验
-      specifications: [
-        { id: 1, key: "测试", name: "规格A" },
-        { id: 2, key: "测试", name: "规格B" },
-        { id: 3, key: "测试", name: "规格C" },
-        // 其他的规格...
-      ],
-
       rules: {
         name: [{ required: true, message: "名字不能为空", trigger: "blur" }],
         number: [{ required: true, message: "编号不能为空", trigger: "blur" }],
@@ -500,7 +524,7 @@ export default {
       });
     },
     /** 查询环境列表 */
-    getlocationList(){
+    getlocationList() {
       this.loading = true;
       listStorageenvironment().then((response) => {
         this.locationList = response.rows;
@@ -511,6 +535,10 @@ export default {
     // 取消按钮
     cancel() {
       this.open = false;
+      this.reset();
+    },
+    outMenCancel() {
+      this.outMenOpen = false;
       this.reset();
     },
     // 表单重置
@@ -558,7 +586,7 @@ export default {
     /*** 出库管理*/
     handReduce() {
       this.reset();
-      this.open = true;
+      this.outMenOpen = true;
       this.title = "药品出库";
     },
     /** 修改按钮操作 */
@@ -602,6 +630,51 @@ export default {
           }
         }
       });
+    },
+
+    /**出库功能*/
+    async outMenSub() {
+      // 验证表单
+      this.$refs.outMenform.validate(async (valid) => {
+        if (valid) {
+          try {
+            // 准备数据对象
+            const data = {
+              name: this.outMenform.name,
+              count: this.outMenform.count,
+              location: this.outMenform.location,
+            };
+            // 调用 API
+            const response = await outMedicine(data);
+            // 处理响应
+            if (response.success) {
+              this.$message({
+                message: "出库成功",
+                type: "success",
+              });
+              // 重置表单并关闭弹窗
+              this.resetForm();
+              this.outMenOpen = false; // 关闭弹窗
+            } else {
+              this.$message.error(response.message || "出库失败，请再试");
+            }
+          } catch (error) {
+            console.error(error);
+            this.$message.error("出库请求失败");
+          }
+        } else {
+          this.$message.error("请填写完整的表单");
+        }
+      });
+    },
+    resetForm() {
+      // 重置表单字段
+      this.outMenform = {
+        name: "",
+        count: "",
+        location: "",
+      };
+      // this.$refs.outMenform.resetFields(); // 重置验证状态
     },
     /** 删除按钮操作 */
     handleDelete(row) {
