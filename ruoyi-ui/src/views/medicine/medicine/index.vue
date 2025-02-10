@@ -646,8 +646,9 @@ export default {
             };
             // 调用 API
             const response = await outMedicine(data);
+            // console.log(response);
             // 处理响应
-            if (response.success) {
+            if (response.code===200) {
               this.$message({
                 message: "出库成功",
                 type: "success",
