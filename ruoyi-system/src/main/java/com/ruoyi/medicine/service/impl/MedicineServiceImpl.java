@@ -1,19 +1,17 @@
 package com.ruoyi.medicine.service.impl;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.medicine.domain.*;
 import com.ruoyi.medicine.mapper.*;
+import com.ruoyi.medicine.service.IMedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.medicine.service.IMedicineService;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 药品Service业务层处理
@@ -195,7 +193,25 @@ public class MedicineServiceImpl implements IMedicineService {
 	 */
 	@Override
 	public int outMedicine(String name, Long count, String location) {
-		return medicineMapper.outMedicine(name, count, location);
+		List<MedicinePro> medicinePros = outMedicineDetail(name, location);
+		Long remaining = count;
+		for (MedicinePro medicinePro : medicinePros) {
+			// 计算完毕，退出循环
+			if (remaining <= 0)
+				break;
+
+			// 计算出库数量
+			Long outNum = medicinePro.getCount() > remaining ? remaining : medicinePro.getCount();
+			Medicine medicine = new Medicine();
+			medicine.setId(medicinePro.getId());
+			medicine.setCount(medicinePro.getCount() - outNum);
+			remaining -= outNum;
+
+			// 更新药品库存
+			medicine.setUpdateTime(DateUtils.getNowDate());
+			medicineMapper.updateMedicine(medicine);
+		}
+		return 1;
 	}
 
 	/**
@@ -204,8 +220,18 @@ public class MedicineServiceImpl implements IMedicineService {
 	 * @return 结果
 	 */
 	@Override
-	public int outMedicineDetail(String name, Long outNum, String location) {
-		return medicineMapper.outMedicineDetail(name, outNum, location);
+	public List<MedicinePro> outMedicineDetail(String name, String location) {
+		return medicineMapper.outMedicineDetail(name, location);
+	}
+
+	/**
+	 * 药品库存查询
+	 *
+	 * @return 结果
+	 */
+	@Override
+	public Long selectMedicineStock(String name, String location) {
+		return medicineMapper.selectMedicineStock(name, location);
 	}
 
 	/**

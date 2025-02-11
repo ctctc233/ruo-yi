@@ -67,7 +67,14 @@ public interface IMedicineService
      * @param name 需要出库的药品名、主键、地点
      * @return 结果
      */
-    public int outMedicineDetail(String name, Long outNum, String location);
+    public List<MedicinePro> outMedicineDetail(String name, String location);
+
+    /**
+     * 药品库存查询
+     *
+     * @return 结果
+     */
+    public Long selectMedicineStock(String name, String location);
 
     /**
      * 批量删除药品

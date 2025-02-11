@@ -111,17 +111,22 @@ public class MedicineController extends BaseController {
 	@Log(title = "药品", businessType = BusinessType.UPDATE)
 	@PutMapping("/outMedicine")
 	public AjaxResult outMedicine(@RequestBody MedicinePro medicine) {
-		return toAjax(medicineService.outMedicine(medicine.getName(), medicine.getCount(), medicine.getLocation()));
+		Long totalCount = medicineService.selectMedicineStock(medicine.getName(), medicine.getLocation());
+		if (medicine.getCount() > totalCount) {
+			return error("药品库存不足，当前库存量：" + totalCount + "，请确认后再出库！");
+		} else {
+			return toAjax(medicineService.outMedicine(medicine.getName(), medicine.getCount(), medicine.getLocation()));
+		}
 	}
 
-	/**
-	 * 药品出库查询
-	 */
-	@PreAuthorize("@ss.hasPermi('medicine:medicine:outDetail')")
-	@GetMapping("/outMedicineDetail")
-	public AjaxResult outMedicineDetail(@RequestBody MedicinePro medicine) {
-		return toAjax(medicineService.outMedicineDetail(medicine.getName(), medicine.getCount(), medicine.getLocation()));
-	}
+//	/**
+//	 * 药品出库查询
+//	 */
+//	@PreAuthorize("@ss.hasPermi('medicine:medicine:outDetail')")
+//	@GetMapping("/outMedicineDetail")
+//	public AjaxResult outMedicineDetail(@RequestBody MedicinePro medicine) {
+//		return toAjax(medicineService.outMedicineDetail(medicine.getName(), medicine.getCount(), medicine.getLocation()));
+//	}
 
 	/**
 	 * 删除药品

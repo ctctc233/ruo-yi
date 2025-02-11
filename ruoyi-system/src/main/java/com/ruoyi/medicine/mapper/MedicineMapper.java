@@ -66,7 +66,15 @@ public interface MedicineMapper
      * @param name 药品主键\出库数量\库位
      * @return 结果
      */
-    public int outMedicineDetail(String name, Long outNum, String location);
+    public List<MedicinePro> outMedicineDetail(String name, String location);
+
+    /**
+     * 药品库存查询
+     *
+     * @param name 药品主键\出库数量\库位
+     * @return 结果
+     */
+    public Long selectMedicineStock(String name, String location);
 
     /**
      * 删除药品
