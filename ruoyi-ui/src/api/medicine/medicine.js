@@ -59,3 +59,12 @@ export function outMedicine(data) {
     data: data
   })
 }
+
+
+//出库入库日志查询
+export function listLog() {
+  return request({
+    url: '/monitor/operlog/inAndOut',
+    method: 'get',
+  })
+}
