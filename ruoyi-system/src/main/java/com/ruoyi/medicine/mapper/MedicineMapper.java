@@ -74,7 +74,7 @@ public interface MedicineMapper
      * @param name 药品主键\出库数量\库位
      * @return 结果
      */
-    public Long selectMedicineStock(String name, String location);
+    public int selectMedicineStock(String name, String location);
 
     /**
      * 删除药品

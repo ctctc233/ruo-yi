@@ -1,6 +1,8 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.system.domain.SysOperLog;
 
 /**
@@ -45,4 +47,18 @@ public interface SysOperLogMapper
      * 清空操作日志
      */
     public void cleanOperLog();
+
+    /**
+     * 查询入库出库操作
+     *
+     * @return 操作日志对象
+     */
+    public List<SysOperLog> selectInAndOut();
+
+    /**
+     * 查询七天入库出库操作次数
+     *
+     * @return 操作日志对象
+     */
+    public List<Map<String, Object>> selectInAndOutCount();
 }

@@ -68,7 +68,7 @@ public class MedicineController extends BaseController {
 	 * 新增药品
 	 */
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:add')")
-	@Log(title = "药品", businessType = BusinessType.INSERT)
+	@Log(title = "药品入库", businessType = BusinessType.INSERT)
 	@PostMapping
 	public AjaxResult add(@RequestBody MedicinePro medicine) {
 		System.out.println("新增药品: " + medicine);
@@ -108,10 +108,10 @@ public class MedicineController extends BaseController {
 	 * 药品出库
 	 */
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:out')")
-	@Log(title = "药品", businessType = BusinessType.UPDATE)
+	@Log(title = "药品出库", businessType = BusinessType.UPDATE)
 	@PutMapping("/outMedicine")
 	public AjaxResult outMedicine(@RequestBody MedicinePro medicine) {
-		Long totalCount = medicineService.selectMedicineStock(medicine.getName(), medicine.getLocation());
+		int totalCount = medicineService.selectMedicineStock(medicine.getName(), medicine.getLocation());
 		if (medicine.getCount() > totalCount) {
 			return error("药品库存不足，当前库存量：" + totalCount + "，请确认后再出库！");
 		} else {
@@ -119,14 +119,14 @@ public class MedicineController extends BaseController {
 		}
 	}
 
-//	/**
-//	 * 药品出库查询
-//	 */
-//	@PreAuthorize("@ss.hasPermi('medicine:medicine:outDetail')")
-//	@GetMapping("/outMedicineDetail")
-//	public AjaxResult outMedicineDetail(@RequestBody MedicinePro medicine) {
-//		return toAjax(medicineService.outMedicineDetail(medicine.getName(), medicine.getCount(), medicine.getLocation()));
-//	}
+	/**
+	 * 药品库存查询
+	 */
+	@PreAuthorize("@ss.hasPermi('medicine:medicine:stock')")
+	@GetMapping("/stock")
+	public AjaxResult outMedicineDetail() {
+		return toAjax(medicineService.selectMedicineStock(null, null));
+	}
 
 	/**
 	 * 删除药品

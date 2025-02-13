@@ -74,7 +74,7 @@ public interface IMedicineService
      *
      * @return 结果
      */
-    public Long selectMedicineStock(String name, String location);
+    public int selectMedicineStock(String name, String location);
 
     /**
      * 批量删除药品

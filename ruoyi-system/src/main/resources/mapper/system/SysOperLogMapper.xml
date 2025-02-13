@@ -79,7 +79,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="selectOperLogVo"/>
 		where oper_id = #{operId}
 	</select>
-	
+
+    <select id="selectInAndOut" resultMap="SysOperLogResult">
+		<include refid="selectOperLogVo"/>
+		where title = '药品入库' or title = '药品出库'
+	</select>
+	<select id="selectInAndOutCount" resultType="java.util.Map">
+		SELECT
+			DATE_SUB(CURDATE(), INTERVAL (units.i + tens.i * 10) DAY) AS date,
+			COUNT(title = '入库' or title = '出库') AS operation_count
+		FROM
+			(SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) units
+				JOIN
+			(SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) tens
+				LEFT JOIN
+			sys_oper_log
+			ON
+				DATE(sys_oper_log.oper_time) = DATE_SUB(CURDATE(), INTERVAL (units.i + tens.i * 10) DAY)
+		WHERE
+			DATE_SUB(CURDATE(), INTERVAL (units.i + tens.i * 10) DAY) >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
+		GROUP BY
+			DATE_SUB(CURDATE(), INTERVAL (units.i + tens.i * 10) DAY)
+		ORDER BY
+			DATE_SUB(CURDATE(), INTERVAL (units.i + tens.i * 10) DAY);
+	</select>
+
 	<update id="cleanOperLog">
         truncate table sys_oper_log
     </update>

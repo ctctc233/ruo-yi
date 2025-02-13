@@ -230,7 +230,7 @@ public class MedicineServiceImpl implements IMedicineService {
 	 * @return 结果
 	 */
 	@Override
-	public Long selectMedicineStock(String name, String location) {
+	public int selectMedicineStock(String name, String location) {
 		return medicineMapper.selectMedicineStock(name, location);
 	}
 
