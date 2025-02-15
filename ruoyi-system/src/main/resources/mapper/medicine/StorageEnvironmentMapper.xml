@@ -35,6 +35,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             location = #{location}
         </where>
     </select>
+    <select id="selectStorageCount" resultType="java.util.Map">
+        SELECT
+            se.location AS 存储地点,
+            COUNT(DISTINCT m.name) AS 药品种数
+        FROM
+            medicine m
+                JOIN
+            medicinestorage ms ON m.id = ms.medicine_id
+                JOIN
+            storageenvironment se ON ms.storage_env_id = se.id
+        GROUP BY
+            se.location;
+    </select>
 
     <insert id="insertStorageEnvironment" parameterType="StorageEnvironment" useGeneratedKeys="true" keyProperty="id">
         insert into storageenvironment

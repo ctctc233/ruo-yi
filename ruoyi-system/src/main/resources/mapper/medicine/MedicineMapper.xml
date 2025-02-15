@@ -214,10 +214,8 @@
              storageenvironment se ON se.id = ms.storage_env_id
         <where>
             <if test="name != null  and name != ''">and m.name like concat('%', #{name}, '%')</if>
-            <if test="location != null ">and se.location = #{location}</if>
+            <if test="location != null and location != ''">and se.location = #{location}</if>
         </where>
-#         WHERE m.name like concat('%', #{name}, '%')
-#           and se.location = #{location}
     </select>
 
     <insert id="insertMedicine" parameterType="Medicine" useGeneratedKeys="true" keyProperty="id">

@@ -72,7 +72,7 @@ public class SysOperlogController extends BaseController {
 
 	// 查询七天入库出库操作次数
 	@PreAuthorize("@ss.hasPermi('monitor:operlog:query')")
-	@DeleteMapping("/count")
+	@GetMapping("/count")
 	public TableDataInfo count() {
 		return getDataTable(operLogService.selectInAndOutCount());
 	}

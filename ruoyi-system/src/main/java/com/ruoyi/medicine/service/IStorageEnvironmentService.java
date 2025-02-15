@@ -1,6 +1,8 @@
 package com.ruoyi.medicine.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.medicine.domain.StorageEnvironment;
 
 /**
@@ -58,4 +60,11 @@ public interface IStorageEnvironmentService
      * @return 结果
      */
     public int deleteStorageEnvironmentById(Long id);
+
+    /**
+     * 查询存放地点药品种类数量
+     *
+     * @return 结果
+     */
+    public List<Map<String, Object>> selectStorageCount();
 }

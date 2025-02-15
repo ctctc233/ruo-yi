@@ -124,8 +124,9 @@ public class MedicineController extends BaseController {
 	 */
 	@PreAuthorize("@ss.hasPermi('medicine:medicine:stock')")
 	@GetMapping("/stock")
-	public AjaxResult outMedicineDetail() {
-		return toAjax(medicineService.selectMedicineStock(null, null));
+	public AjaxResult outMedicineDetail(@RequestParam(required = false) String name, @RequestParam(required = false) String location) {
+		System.out.println("查询药品库存: " + medicineService.selectMedicineStock(name, location));
+		return success(medicineService.selectMedicineStock(name, location));
 	}
 
 	/**

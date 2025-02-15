@@ -95,4 +95,13 @@ public class StorageEnvironmentController extends BaseController {
 	public AjaxResult remove(@PathVariable Long[] ids) {
 		return toAjax(storageenvironmentService.deleteStorageEnvironmentByIds(ids));
 	}
+
+	/**
+	 * 查询存放地点药品种类数量
+	 */
+	@PreAuthorize("@ss.hasPermi('medicine:storageenvironment:list')")
+	@GetMapping("/count")
+	public TableDataInfo count() {
+		return getDataTable(storageenvironmentService.selectStorageCount());
+	}
 }

@@ -1,6 +1,8 @@
 package com.ruoyi.medicine.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.medicine.domain.StorageEnvironment;
 
 /**
@@ -66,4 +68,11 @@ public interface StorageEnvironmentMapper
      * @return 结果
      */
     public long selectStorageEnvironmentId(String location);
+
+    /**
+     * 查询存放地点药品种类数量
+     *
+     * @return 结果
+     */
+    public List<Map<String, Object>> selectStorageCount();
 }
