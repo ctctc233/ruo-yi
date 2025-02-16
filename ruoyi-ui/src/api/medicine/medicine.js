@@ -68,3 +68,13 @@ export function listLog() {
     method: 'get',
   })
 }
+
+
+/**获取临期药品信息 */
+
+export function getExpiredMedicine() {
+  return request({
+    url: '/medicine/medicine/listNearExpirationMedicines',
+    method: 'get',
+  })
+}

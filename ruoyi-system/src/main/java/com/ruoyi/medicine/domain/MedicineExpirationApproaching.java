@@ -1,5 +1,7 @@
 package com.ruoyi.medicine.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /*
@@ -16,9 +18,11 @@ public class MedicineExpirationApproaching {
     private String batchNumber;
 
     // 药品生产日期
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date productionDate;
 
     // 药品有效期至
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expirationDate;
 
     // 临期阈值（例如，提前多少天算临期）
