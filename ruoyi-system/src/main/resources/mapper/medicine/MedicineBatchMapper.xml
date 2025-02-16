@@ -48,12 +48,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateMedicineBatch" parameterType="MedicineBatch">
         update medicine_batch
         <trim prefix="SET" suffixOverrides=",">
-            <if test="medicineId != null">medicine_id = #{medicineId},</if>
             <if test="batchId != null">batch_id = #{batchId},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
-        where id = #{id}
+        where medicine_id = #{medicineId}
     </update>
 
     <delete id="deleteMedicineBatchById" parameterType="Long">

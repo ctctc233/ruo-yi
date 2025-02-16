@@ -48,12 +48,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateMedicinestorage" parameterType="Medicinestorage">
         update medicinestorage
         <trim prefix="SET" suffixOverrides=",">
-            <if test="medicineId != null">medicine_id = #{medicineId},</if>
             <if test="storageEnvId != null">storage_env_id = #{storageEnvId},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
-        where id = #{id}
+        where medicine_id = #{medicineId}
     </update>
 
     <delete id="deleteMedicinestorageById" parameterType="Long">

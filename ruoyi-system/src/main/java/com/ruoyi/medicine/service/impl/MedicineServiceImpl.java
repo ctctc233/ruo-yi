@@ -153,14 +153,17 @@ public class MedicineServiceImpl implements IMedicineService {
 	public int updateMedicine(MedicinePro medicinePro) {
 		System.out.println("药品修改" + medicinePro);
 		// TODO 药品修改关联表，药品库存，药品规格,药品批号
+		System.out.println("药品修改" + medicinePro.getId());
 		/*修改规格*/
 		Specificationattribute specificationattribute = new Specificationattribute();
+		specificationattribute.setId(medicinePro.getSpecificationAttributeId());
 		specificationattribute.setAttributeKey(medicinePro.getSpecificationAttributekey());
 		specificationattribute.setAttributeValue(medicinePro.getSpecificationAttributename());
 		specificationattributeMapper.updateSpecificationattribute(specificationattribute);
 
 		/*修改药品*/
 		Medicine medicine = new Medicine();
+		medicine.setId(medicinePro.getId());
 		medicine.setName(medicinePro.getName());
 		medicine.setNumber(medicinePro.getNumber());
 		medicine.setBrand(medicinePro.getBrand());
@@ -176,11 +179,13 @@ public class MedicineServiceImpl implements IMedicineService {
 
 		/*修改批号*/
 		MedicineBatch medicineBatch = new MedicineBatch();
+		medicineBatch.setMedicineId(medicine.getId());
 		medicineBatch.setBatchId(batchMapper.selectBatchByBatchNumber(medicinePro.getBatchNumber()));
 		medicineBatchMapper.updateMedicineBatch(medicineBatch);
 
 		/*修改库存*/
 		Medicinestorage medicinestorage = new Medicinestorage();
+		medicinestorage.setMedicineId(medicine.getId());
 		medicinestorage.setStorageEnvId(storageenvironmentMapper.selectStorageEnvironmentId(medicinePro.getLocation()));
 		medicinestorageMapper.updateMedicinestorage(medicinestorage);
 		return 1;
