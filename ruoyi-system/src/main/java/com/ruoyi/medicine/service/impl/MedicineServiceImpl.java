@@ -35,6 +35,9 @@ public class MedicineServiceImpl implements IMedicineService {
 	@Autowired
 	private MedicinestorageMapper medicinestorageMapper;
 
+	@Autowired
+	private StockThresholdMapper stockThresholdMapper;
+
 	/**
 	 * 查询药品
 	 *
@@ -86,7 +89,6 @@ public class MedicineServiceImpl implements IMedicineService {
 				LocalDate date = medicineExpirationApproaching.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				System.out.println(medicineExpirationApproaching.getExpirationDate());
 				long days = ChronoUnit.DAYS.between(currentDate, date);
-				System.out.println("还剩多少天: " + days);
 				medicineExpirationApproaching.setDays(days);
 				medicineExpirationApproaching.setApproachingExpiration(days <= medicineExpirationApproaching.getExpirationThresholdDays());
 			} catch (Exception e) {
@@ -140,6 +142,17 @@ public class MedicineServiceImpl implements IMedicineService {
 		medicinestorage.setMedicineId(medicine.getId());
 		medicinestorage.setStorageEnvId(storageenvironmentMapper.selectStorageEnvironmentId(medicinePro.getLocation()));
 		medicinestorageMapper.insertMedicinestorage(medicinestorage);
+
+		/*插入药品阈值表*/
+		/*入库时，统一设计阈值为20*/
+		StockThreshold stockThreshold = new StockThreshold();
+		stockThreshold.setName(medicine.getName());
+		stockThreshold.setThreshold(20);
+		try {
+			stockThresholdMapper.insert(stockThreshold);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		return 1;
 	}
 
@@ -287,5 +300,26 @@ public class MedicineServiceImpl implements IMedicineService {
 	@Override
 	public List<MedicinePro> selectMedicineDetail(Long number) {
 		return medicineMapper.selectMedicineDetail(number);
+	}
+
+	@Override
+	public List<MedicineRemainingStock> listRemainingStockMedicine(){
+		List<MedicineRemainingStock> medicineRemainingStocks = medicineMapper.listRemainingStockMedicine();
+		List<StockThreshold> stockThresholds = stockThresholdMapper.queryAll();
+		for (StockThreshold stockThreshold : stockThresholds) {
+			for (MedicineRemainingStock medicineRemainingStock : medicineRemainingStocks) {
+				String name = stockThreshold.getName();
+				try {
+					if (name.equals(medicineRemainingStock.getName())) {
+						int threshold = stockThreshold.getThreshold();
+						medicineRemainingStock.setThreshold(threshold);
+						medicineRemainingStock.setFlag(threshold > medicineRemainingStock.getCount());
+					}
+				} catch (Exception e) {
+					medicineRemainingStock.setFlag(null);
+				}
+			}
+		}
+		return medicineRemainingStocks;
 	}
 }

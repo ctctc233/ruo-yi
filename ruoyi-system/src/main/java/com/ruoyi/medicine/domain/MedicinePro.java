@@ -108,7 +108,8 @@ public class MedicinePro extends BaseEntity {
 	public MedicinePro() {
 	}
 
-	public Long getId() {
+
+    public Long getId() {
 		return id;
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 import com.ruoyi.medicine.domain.Medicine;
 import com.ruoyi.medicine.domain.MedicineExpirationApproaching;
 import com.ruoyi.medicine.domain.MedicinePro;
+import com.ruoyi.medicine.domain.MedicineRemainingStock;
 
 /**
  * 药品Service接口
@@ -11,11 +12,13 @@ import com.ruoyi.medicine.domain.MedicinePro;
  * @author ruoyi
  * @date 2025-01-24
  */
-public interface IMedicineService 
+public interface IMedicineService
+
 {
+
     /**
      * 查询药品
-     * 
+     *
      * @param id 药品主键
      * @return 药品
      */
@@ -105,4 +108,11 @@ public interface IMedicineService
      * @return 结果
      */
     public List<MedicinePro> selectMedicineDetail(Long number);
+
+    /**
+     * 查询药品阈值
+     *
+     * @return 结果
+     */
+    List<MedicineRemainingStock> listRemainingStockMedicine();
 }

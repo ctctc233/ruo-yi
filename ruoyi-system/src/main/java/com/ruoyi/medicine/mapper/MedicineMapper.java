@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.medicine.domain.Medicine;
 import com.ruoyi.medicine.domain.MedicinePro;
+import com.ruoyi.medicine.domain.MedicineRemainingStock;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -105,4 +106,6 @@ public interface MedicineMapper {
 	 * @return 结果
 	 */
 	public List<MedicinePro> selectMedicineDetail(Long number);
+
+	public List<MedicineRemainingStock> listRemainingStockMedicine();
 }

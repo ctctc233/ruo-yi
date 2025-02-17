@@ -8,12 +8,14 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.medicine.domain.MedicineExpirationApproaching;
 import com.ruoyi.medicine.domain.MedicinePro;
+import com.ruoyi.medicine.domain.MedicineRemainingStock;
 import com.ruoyi.medicine.service.IMedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -72,24 +74,6 @@ public class MedicineController extends BaseController {
 	@PostMapping
 	public AjaxResult add(@RequestBody MedicinePro medicine) {
 		System.out.println("新增药品: " + medicine);
-		// 创建假数据
-//		Long id = 1L;
-//		String batchNumber = "BATCH12345";
-//		String location = "仓库B";
-//		String name = "阿莫西林";
-//		Long number = 1001L;
-//		String brand = "xxx";
-//		String attributeKey = "规格";
-//		String attributeValue = "10片/盒";
-//		Date productionDate = new Date(); // 当前时间作为生产日期
-//		Date expiryDate = new Date(System.currentTimeMillis() + 365L * 24 * 60 * 60 * 1000); // 一年后过期
-//		String manufacturer = "阿莫西林生制药厂";
-//		String unit = "盒";
-//		Long count = 100L;
-//		Long status = 0L; // 0：正常
-//
-//		// 使用有参构造器创建对象
-//		MedicinePro m = new MedicinePro(id, batchNumber, location, name, number, brand, attributeKey, attributeValue, productionDate, expiryDate, manufacturer, unit, count, status);
 
 		return toAjax(medicineService.insertMedicine(medicine));
 	}
@@ -171,4 +155,16 @@ public class MedicineController extends BaseController {
 //		}
 		return getDataTable(list);
 	}
+
+	/**
+	 * 查询药品临期列表
+	 */
+	@PreAuthorize("@ss.hasPermi('medicine:medicine:listRemainingStockMedicine')")
+	@GetMapping("/listRemainingStockMedicine")
+	public TableDataInfo listRemainingStockMedicine() {
+		List<MedicineRemainingStock> list = medicineService.listRemainingStockMedicine();
+		return getDataTable(list);
+	}
+
+
 }

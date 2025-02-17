@@ -292,4 +292,9 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="listRemainingStockMedicine" parameterType="MedicineRemainingStock">
+        select name, sum(count) as count from medicine
+        group by name
+    </select>
 </mapper>
