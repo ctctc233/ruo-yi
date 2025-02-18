@@ -147,11 +147,11 @@ public class MedicineServiceImpl implements IMedicineService {
 		/*入库时，统一设计阈值为20*/
 		StockThreshold stockThreshold = new StockThreshold();
 		stockThreshold.setName(medicine.getName());
-		stockThreshold.setThreshold(20);
+		stockThreshold.setThreshold(20L);
 		try {
-			stockThresholdMapper.insert(stockThreshold);
+			stockThresholdMapper.insertStockThreshold(stockThreshold);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			return 1;
 		}
 		return 1;
 	}
@@ -311,8 +311,8 @@ public class MedicineServiceImpl implements IMedicineService {
 				String name = stockThreshold.getName();
 				try {
 					if (name.equals(medicineRemainingStock.getName())) {
-						int threshold = stockThreshold.getThreshold();
-						medicineRemainingStock.setThreshold(threshold);
+						long threshold = stockThreshold.getThreshold();
+						medicineRemainingStock.setThreshold((int) threshold);
 						medicineRemainingStock.setFlag(threshold > medicineRemainingStock.getCount());
 					}
 				} catch (Exception e) {

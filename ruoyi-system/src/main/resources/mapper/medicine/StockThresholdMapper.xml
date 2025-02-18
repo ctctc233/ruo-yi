@@ -1,105 +1,66 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.medicine.mapper.StockThresholdMapper">
-
-    <resultMap type="com.ruoyi.medicine.domain.StockThreshold" id="StockThresholdMap">
-        <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="name" column="name" jdbcType="VARCHAR"/>
-        <result property="threshold" column="threshold" jdbcType="INTEGER"/>
+    
+    <resultMap type="StockThreshold" id="StockThresholdResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="threshold"    column="threshold"    />
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="StockThresholdMap">
-        select
-          id, name, threshold
-        from stock_threshold
-        where id = #{id}
+    <sql id="selectStockThresholdVo">
+        select id, name, threshold from stock_threshold
+    </sql>
+
+    <select id="selectStockThresholdList" parameterType="StockThreshold" resultMap="StockThresholdResult">
+        <include refid="selectStockThresholdVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="threshold != null "> and threshold = #{threshold}</if>
+        </where>
     </select>
-    <select id="queryAll" resultMap="StockThresholdMap">
+    <select id="queryAll" resultMap="StockThresholdResult">
         select
             id, name, threshold
         from stock_threshold
     </select>
-
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="StockThresholdMap">
-        select
-          id, name, threshold
-        from stock_threshold
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
-            </if>
-            <if test="threshold != null">
-                and threshold = #{threshold}
-            </if>
-        </where>
-        limit #{pageable.offset}, #{pageable.pageSize}
+    
+    <select id="selectStockThresholdById" parameterType="Long" resultMap="StockThresholdResult">
+        <include refid="selectStockThresholdVo"/>
+        where id = #{id}
     </select>
 
-    <!--统计总行数-->
-    <select id="count" resultType="java.lang.Long">
-        select count(1)
-        from stock_threshold
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
-            </if>
-            <if test="threshold != null">
-                and threshold = #{threshold}
-            </if>
-        </where>
-    </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into stock_threshold(name, threshold)
-        values (#{name}, #{threshold})
+    <insert id="insertStockThreshold" parameterType="StockThreshold" useGeneratedKeys="true" keyProperty="id">
+        insert into stock_threshold
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="threshold != null">threshold,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="threshold != null">#{threshold},</if>
+         </trim>
     </insert>
 
-    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into stock_threshold(name, threshold)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-        (#{entity.name}, #{entity.threshold})
-        </foreach>
-    </insert>
-
-    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into stock_threshold(name, threshold)
-        values
-        <foreach collection="entities" item="entity" separator=",">
-            (#{entity.name}, #{entity.threshold})
-        </foreach>
-        on duplicate key update
-        name = values(name),
-        threshold = values(threshold)
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
+    <update id="updateStockThreshold" parameterType="StockThreshold">
         update stock_threshold
-        <set>
-            <if test="name != null and name != ''">
-                name = #{name},
-            </if>
-            <if test="threshold != null">
-                threshold = #{threshold},
-            </if>
-        </set>
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="threshold != null">threshold = #{threshold},</if>
+        </trim>
         where id = #{id}
     </update>
 
-    <!--通过主键删除-->
-    <delete id="deleteById">
+    <delete id="deleteStockThresholdById" parameterType="Long">
         delete from stock_threshold where id = #{id}
     </delete>
 
+    <delete id="deleteStockThresholdByIds" parameterType="String">
+        delete from stock_threshold where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
-

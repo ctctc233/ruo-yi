@@ -1,17 +1,16 @@
-package com.ruoyi.medicine.mapper;
+package com.ruoyi.medicine.service;
 
 import java.util.List;
 import com.ruoyi.medicine.domain.StockThreshold;
 
 /**
- * 药品存量阈值Mapper接口
+ * 药品存量阈值Service接口
  * 
  * @author ruoyi
  * @date 2025-02-18
  */
-public interface StockThresholdMapper 
+public interface IStockThresholdService 
 {
-    List<StockThreshold> queryAll();
     /**
      * 查询药品存量阈值
      * 
@@ -45,18 +44,18 @@ public interface StockThresholdMapper
     public int updateStockThreshold(StockThreshold stockThreshold);
 
     /**
-     * 删除药品存量阈值
+     * 批量删除药品存量阈值
+     * 
+     * @param ids 需要删除的药品存量阈值主键集合
+     * @return 结果
+     */
+    public int deleteStockThresholdByIds(Long[] ids);
+
+    /**
+     * 删除药品存量阈值信息
      * 
      * @param id 药品存量阈值主键
      * @return 结果
      */
     public int deleteStockThresholdById(Long id);
-
-    /**
-     * 批量删除药品存量阈值
-     * 
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-    public int deleteStockThresholdByIds(Long[] ids);
 }

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询药品临界阈值列表
+// 查询药品存量阈值列表
 export function listThreshold(query) {
   return request({
     url: '/medicine/threshold/list',
@@ -9,7 +9,7 @@ export function listThreshold(query) {
   })
 }
 
-// 查询药品临界阈值详细
+// 查询药品存量阈值详细
 export function getThreshold(id) {
   return request({
     url: '/medicine/threshold/' + id,
@@ -17,7 +17,7 @@ export function getThreshold(id) {
   })
 }
 
-// 新增药品临界阈值
+// 新增药品存量阈值
 export function addThreshold(data) {
   return request({
     url: '/medicine/threshold',
@@ -26,7 +26,7 @@ export function addThreshold(data) {
   })
 }
 
-// 修改药品临界阈值
+// 修改药品存量阈值
 export function updateThreshold(data) {
   return request({
     url: '/medicine/threshold',
@@ -35,7 +35,7 @@ export function updateThreshold(data) {
   })
 }
 
-// 删除药品临界阈值
+// 删除药品存量阈值
 export function delThreshold(id) {
   return request({
     url: '/medicine/threshold/' + id,

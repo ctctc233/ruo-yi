@@ -9,10 +9,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="临界值" prop="threshold">
+      <el-form-item label="存量阈值" prop="threshold">
         <el-input
           v-model="queryParams.threshold"
-          placeholder="请输入临界值"
+          placeholder="请输入存量阈值"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -71,9 +71,9 @@
 
     <el-table v-loading="loading" :data="thresholdList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="Primary key, auto-increment" align="center" prop="id" />
+      <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="药品名字" align="center" prop="name" />
-      <el-table-column label="临界值" align="center" prop="threshold" />
+      <el-table-column label="存量阈值" align="center" prop="threshold" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -102,14 +102,14 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改药品临界阈值对话框 -->
+    <!-- 添加或修改药品存量阈值对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="药品名字" prop="name">
           <el-input v-model="form.name" placeholder="请输入药品名字" />
         </el-form-item>
-        <el-form-item label="临界值" prop="threshold">
-          <el-input v-model="form.threshold" placeholder="请输入临界值" />
+        <el-form-item label="存量阈值" prop="threshold">
+          <el-input v-model="form.threshold" placeholder="请输入存量阈值" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -139,7 +139,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 药品临界阈值表格数据
+      // 药品存量阈值表格数据
       thresholdList: [],
       // 弹出层标题
       title: "",
@@ -160,7 +160,7 @@ export default {
           { required: true, message: "药品名字不能为空", trigger: "blur" }
         ],
         threshold: [
-          { required: true, message: "临界值不能为空", trigger: "blur" }
+          { required: true, message: "存量阈值不能为空", trigger: "blur" }
         ]
       }
     };
@@ -169,7 +169,7 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询药品临界阈值列表 */
+    /** 查询药品存量阈值列表 */
     getList() {
       this.loading = true;
       listThreshold(this.queryParams).then(response => {
@@ -212,7 +212,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加药品临界阈值";
+      this.title = "添加药品存量阈值";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -221,7 +221,7 @@ export default {
       getThreshold(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改药品临界阈值";
+        this.title = "修改药品存量阈值";
       });
     },
     /** 提交按钮 */
@@ -247,7 +247,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除药品临界阈值编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除药品存量阈值编号为"' + ids + '"的数据项？').then(function() {
         return delThreshold(ids);
       }).then(() => {
         this.getList();
