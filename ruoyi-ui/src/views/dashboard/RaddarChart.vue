@@ -1,116 +1,91 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}" />
+  <div :class="className" :style="{ height, width }" ref="chartContainer"></div>
 </template>
 
 <script>
-import * as echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
-import resize from './mixins/resize'
-
-const animationDuration = 3000
+import * as echarts from "echarts";
+import "echarts/theme/macarons"; // 引入主题
+import resize from "./mixins/resize";
+import { getlistSevenDayOperate } from "@/api/medicine/medicine";
 
 export default {
   mixins: [resize],
   props: {
     className: {
       type: String,
-      default: 'chart'
+      default: "chart",
     },
     width: {
       type: String,
-      default: '100%'
+      default: "100%",
     },
     height: {
       type: String,
-      default: '300px'
-    }
+      default: "300px",
+    },
   },
   data() {
     return {
-      chart: null
-    }
+      chart: null,
+      data: [],
+    };
   },
   mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
+    this.initChart();
+    window.addEventListener("resize", this.resizeChart); // 增加窗口缩放事件
   },
   beforeDestroy() {
-    if (!this.chart) {
-      return
+    window.removeEventListener("resize", this.resizeChart); // 清理事件监听
+    if (this.chart) {
+      this.chart.dispose();
+      this.chart = null;
     }
-    this.chart.dispose()
-    this.chart = null
+  },
+  created() {
+    this.getlistSevenDayOption();
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
-
-      this.chart.setOption({
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: { // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-          }
+      this.chart = echarts.init(this.$refs.chartContainer, "macarons");
+    },
+    resizeChart() {
+      if (this.chart) {
+        this.chart.resize(); // 调整图表大小
+      }
+    },
+    /**获取数据 */
+    async getlistSevenDayOption() {
+      const data = await getlistSevenDayOperate();
+      // console.log(data);
+      const option = {
+        title: {
+          display: true,
+          text: "近七天操作次数统计",
+          color: "black", // 设置颜色为黑色
         },
-        radar: {
-          radius: '66%',
-          center: ['50%', '42%'],
-          splitNumber: 8,
-          splitArea: {
-            areaStyle: {
-              color: 'rgba(127,95,132,.3)',
-              opacity: 1,
-              shadowBlur: 45,
-              shadowColor: 'rgba(0,0,0,.5)',
-              shadowOffsetX: 0,
-              shadowOffsetY: 15
-            }
+        xAxis: {
+          type: "category",
+          data: data.rows.map((item) => item.date),
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: data.rows.map((item) => item.operation_count),
+            type: "line",
+            smooth: true,
           },
-          indicator: [
-            { name: 'Sales', max: 10000 },
-            { name: 'Administration', max: 20000 },
-            { name: 'Information Techology', max: 20000 },
-            { name: 'Customer Support', max: 20000 },
-            { name: 'Development', max: 20000 },
-            { name: 'Marketing', max: 20000 }
-          ]
-        },
-        legend: {
-          left: 'center',
-          bottom: '10',
-          data: ['Allocated Budget', 'Expected Spending', 'Actual Spending']
-        },
-        series: [{
-          type: 'radar',
-          symbolSize: 0,
-          areaStyle: {
-            normal: {
-              shadowBlur: 13,
-              shadowColor: 'rgba(0,0,0,.2)',
-              shadowOffsetX: 0,
-              shadowOffsetY: 10,
-              opacity: 1
-            }
-          },
-          data: [
-            {
-              value: [5000, 7000, 12000, 11000, 15000, 14000],
-              name: 'Allocated Budget'
-            },
-            {
-              value: [4000, 9000, 15000, 15000, 13000, 11000],
-              name: 'Expected Spending'
-            },
-            {
-              value: [5500, 11000, 12000, 15000, 12000, 12000],
-              name: 'Actual Spending'
-            }
-          ],
-          animationDuration: animationDuration
-        }]
-      })
-    }
-  }
-}
+        ],
+      };
+      this.chart.setOption(option);
+    },
+  },
+};
 </script>
+
+<style scoped>
+.chart {
+  position: relative;
+}
+</style>

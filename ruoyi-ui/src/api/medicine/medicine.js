@@ -9,12 +9,12 @@ export function listMedicine(query) {
   })
 }
 
-export function MedicineType() {
-  return request({
-    url: '/api/medicine',
-    method: 'get',
-  })
-}
+// export function MedicineType() {
+//   return request({
+//     url: '/api/medicine',
+//     method: 'get',
+//   })
+// }
 
 
 // 查询药品详细
@@ -71,10 +71,33 @@ export function listLog() {
 
 
 /**获取临期药品信息 */
-
 export function getExpiredMedicine() {
   return request({
     url: '/medicine/medicine/listNearExpirationMedicines',
+    method: 'get',
+  })
+}
+
+/**获取药品数量临期请求 */
+export function getlistRemainingStockMedicine() {
+  return request({
+    url: '/medicine/medicine/listRemainingStockMedicine',
+    method: 'get',
+  })
+}
+
+/**获取七天操作数量 */
+export function getlistSevenDayOperate() {
+  return request({
+    url: '/monitor/operlog/count',
+    method: 'get',
+  })
+}
+
+/**获取库存分类统计 */
+export function getlistStockType() {
+  return request({
+    url: '/medicine/storageenvironment/count',
     method: 'get',
   })
 }

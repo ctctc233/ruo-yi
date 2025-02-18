@@ -37,8 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectStorageCount" resultType="java.util.Map">
         SELECT
-            se.location AS 存储地点,
-            COUNT(DISTINCT m.name) AS 药品种数
+            se.location AS name,
+            COUNT(DISTINCT m.name) AS value
         FROM
             medicine m
                 JOIN
