@@ -1,6 +1,7 @@
 package com.ruoyi.medicine.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.annotation.Excel;
 
 import java.util.Date;
 
@@ -16,6 +17,25 @@ public class MedicineExpirationApproaching {
 
     // 药品批次号
     private String batchNumber;
+
+    // 药品生产厂商
+    private String manufacturer;
+
+    // 地点
+    @Excel(name = "地点")
+    private String location;
+
+//    // 温度
+//    @Excel(name = "温度")
+//    private String temperature;
+
+    /** 规格键 */
+    @Excel(name = "规格键")
+    private String attributeKey;
+
+    /** 规格值 */
+    @Excel(name = "规格值")
+    private String attributeValue;
 
     // 药品生产日期
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -33,6 +53,47 @@ public class MedicineExpirationApproaching {
 
     //剩余天数
     private long days;
+
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+//    public String getTemperature() {
+//        return temperature;
+//    }
+//
+//    public void setTemperature(String temperature) {
+//        this.temperature = temperature;
+//    }
+
+    public String getAttributeKey() {
+        return attributeKey;
+    }
+
+    public void setAttributeKey(String attributeKey) {
+        this.attributeKey = attributeKey;
+    }
+
+    public String getAttributeValue() {
+        return attributeValue;
+    }
+
+    public void setAttributeValue(String attributeValue) {
+        this.attributeValue = attributeValue;
+    }
 
     public long getDays() {
         return days;
@@ -98,26 +159,17 @@ public class MedicineExpirationApproaching {
         isApproachingExpiration = approachingExpiration;
     }
 
-    public MedicineExpirationApproaching(Long medicineId, String medicineName, String batchNumber, Date productionDate, Date expirationDate, Integer expirationThresholdDays, Boolean isApproachingExpiration, long days) {
-        this.medicineId = medicineId;
-        this.medicineName = medicineName;
-        this.batchNumber = batchNumber;
-        this.productionDate = productionDate;
-        this.expirationDate = expirationDate;
-        this.expirationThresholdDays = expirationThresholdDays;
-        this.isApproachingExpiration = isApproachingExpiration;
-        this.days = days;
-    }
-
-    public MedicineExpirationApproaching() {
-    }
-
     @Override
     public String toString() {
         return "MedicineExpirationApproaching{" +
                 "medicineId=" + medicineId +
                 ", medicineName='" + medicineName + '\'' +
                 ", batchNumber='" + batchNumber + '\'' +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", location='" + location + '\'' +
+//                ", temperature='" + temperature + '\'' +
+                ", attributeKey='" + attributeKey + '\'' +
+                ", attributeValue='" + attributeValue + '\'' +
                 ", productionDate=" + productionDate +
                 ", expirationDate=" + expirationDate +
                 ", expirationThresholdDays=" + expirationThresholdDays +

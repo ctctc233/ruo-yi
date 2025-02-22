@@ -76,11 +76,17 @@ public class MedicineServiceImpl implements IMedicineService {
 		List<MedicineExpirationApproaching> medicineExpirationApproachings = new ArrayList<>();
 		for (MedicinePro medicinePro : medicinePros) {
 			MedicineExpirationApproaching medicineExpirationApproaching = new MedicineExpirationApproaching();
+
 			medicineExpirationApproaching.setMedicineId(medicinePro.getId());
 			medicineExpirationApproaching.setMedicineName(medicinePro.getName());
 			medicineExpirationApproaching.setBatchNumber(medicinePro.getBatchNumber());
+			medicineExpirationApproaching.setManufacturer(medicinePro.getManufacturer());
 			medicineExpirationApproaching.setProductionDate(medicinePro.getProductionDate());
 			medicineExpirationApproaching.setExpirationDate(medicinePro.getExpiryDate());
+			medicineExpirationApproaching.setLocation(medicinePro.getLocation());
+			medicineExpirationApproaching.setAttributeKey(medicinePro.getSpecificationAttributekey());
+			medicineExpirationApproaching.setAttributeValue(medicinePro.getSpecificationAttributename());
+
 			/* 默认90天临期天数 */
 			medicineExpirationApproaching.setExpirationThresholdDays(90);
 
@@ -89,6 +95,9 @@ public class MedicineServiceImpl implements IMedicineService {
 				LocalDate date = medicineExpirationApproaching.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				System.out.println(medicineExpirationApproaching.getExpirationDate());
 				long days = ChronoUnit.DAYS.between(currentDate, date);
+				if (days < 0) {
+					days = -1;
+				}
 				medicineExpirationApproaching.setDays(days);
 				medicineExpirationApproaching.setApproachingExpiration(days <= medicineExpirationApproaching.getExpirationThresholdDays());
 			} catch (Exception e) {
@@ -301,6 +310,12 @@ public class MedicineServiceImpl implements IMedicineService {
 	public List<MedicinePro> selectMedicineDetail(Long number) {
 		return medicineMapper.selectMedicineDetail(number);
 	}
+
+	/**
+	 * 药品存量列表
+	 *
+	 * @return 结果
+	 */
 
 	@Override
 	public List<MedicineRemainingStock> listRemainingStockMedicine(){
