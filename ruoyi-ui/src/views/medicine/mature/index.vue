@@ -1,7 +1,7 @@
 <template>  
   <div style="padding-left: 20px">  
     <el-tabs v-model="activeName" @tab-click="handleClick">  
-      <el-tab-pane label="时间预警" name="first">  
+      <el-tab-pane label="临期预警" name="first">  
         <el-table :data="medicines" style="width: 100%">  
           <el-table-column prop="medicineName" label="药品名称" align="center"/>  
           <el-table-column prop="productionDate" label="生产日期" align="center"/>  
@@ -27,7 +27,7 @@
           </el-table-column>  
         </el-table>  
       </el-tab-pane>  
-      <el-tab-pane label="数量预警" name="second">  
+      <el-tab-pane label="库存预警" name="second">  
         <el-table :data="remainingMedicines" style="width: 100%">  
           <el-table-column prop="name" label="药品名称" align="center"/>  
           <el-table-column prop="count" label="库存数量" align="center"/>  
